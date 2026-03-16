@@ -1,3 +1,6 @@
+Roaster · HTML
+Copy
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +19,7 @@
   --font:'Segoe UI','Arial',sans-serif;
 }
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;padding:1.5rem;}
-
+ 
 #toast{position:fixed;top:1rem;right:1rem;z-index:9999;max-width:380px;font-size:0.73rem;padding:0.6rem 1rem;border-radius:4px;opacity:0;transition:opacity 0.2s;pointer-events:none;line-height:1.5;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
 #toast.show{opacity:1;}
 #dblog{background:#fffde7;border:1px solid #f9a825;border-radius:4px;padding:0.6rem 0.9rem;margin-bottom:1rem;font-size:0.72rem;color:#5d4037;display:none;}
@@ -25,12 +28,12 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 #loader{position:fixed;inset:0;background:rgba(245,244,240,0.88);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;font-size:0.85rem;color:var(--muted);z-index:99;}
 #loader.hidden{display:none;}
 #loaderMsg{font-size:0.75rem;color:var(--muted);}
-
+ 
 .hospital-header{text-align:center;background:var(--header);color:var(--header-text);padding:0.9rem 1.5rem;margin-bottom:1.25rem;border-radius:4px;}
 .hospital-header h1{font-size:1rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.2rem;}
 .hospital-header h2{font-size:0.8rem;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;opacity:0.8;margin-bottom:0.15rem;}
 .hospital-header h3{font-size:0.75rem;font-weight:600;letter-spacing:0.05em;opacity:0.9;}
-
+ 
 .toolbar{display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap;background:var(--surface);padding:0.65rem 1rem;border:1px solid var(--border);border-radius:4px;}
 .month-nav{display:flex;align-items:center;gap:0.6rem;}
 .month-nav button{background:none;border:1px solid var(--border-dark);color:var(--text);font-size:0.75rem;padding:0.3rem 0.6rem;cursor:pointer;border-radius:3px;font-family:var(--font);}
@@ -47,12 +50,12 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .import-btn:hover{background:#bbdefb;}
 .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4caf50;margin-right:5px;}
 .status-dot.offline{background:#f44336;}
-
+ 
 .doctor-chips{display:flex;flex-wrap:wrap;gap:6px;padding:0.6rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:4px;margin-bottom:1rem;min-height:42px;align-items:center;}
 .chip{display:inline-flex;align-items:center;gap:4px;background:#e8eaf6;color:#283593;border:1px solid #c5cae9;border-radius:20px;font-size:0.7rem;padding:0.2rem 0.6rem;}
 .chip .rm{cursor:pointer;color:#9fa8da;font-size:0.65rem;margin-left:2px;}
 .chip .rm:hover{color:#c62828;}
-
+ 
 .grid-wrap{overflow-x:auto;}
 table{border-collapse:collapse;width:100%;background:var(--surface);font-size:0.78rem;}
 table th,table td{border:1px solid var(--border);padding:0;}
@@ -60,11 +63,11 @@ thead th{background:var(--header);color:var(--header-text);font-size:0.7rem;font
 thead th.left{text-align:left;}
 tbody tr.sunday{background:var(--sunday);}
 tbody tr.today-row{background:var(--today);}
-
+ 
 /* Bold date+day when any slot is Full Day */
 tbody tr.has-full td.date-cell,
 tbody tr.has-full td.day-cell{font-weight:700;color:#1565c0;}
-
+ 
 td.date-cell{padding:0.4rem 0.6rem;white-space:nowrap;font-size:0.75rem;font-weight:400;text-align:center;min-width:70px;transition:font-weight 0.1s;}
 td.day-cell{padding:0.4rem 0.6rem;white-space:nowrap;font-size:0.75rem;text-align:left;min-width:80px;transition:font-weight 0.1s;}
 tr.sunday td.day-cell{font-weight:700;}
@@ -89,22 +92,22 @@ input.note-input:focus{background:#fffde7;}
 </style>
 </head>
 <body>
-
+ 
 <div id="loader">
   <span>Loading roster...</span>
   <span id="loaderMsg"></span>
 </div>
 <div id="toast"></div>
 <div id="dblog"><strong>⚠ Database Error</strong><pre id="dblogtext"></pre></div>
-
+ 
 <div class="hospital-header">
   <h1>ACS Medical College &amp; Hospital</h1>
   <h2>Department of OBG</h2>
   <h3 id="rosterTitle"></h3>
 </div>
-
+ 
 <div class="doctor-chips" id="doctorChips"></div>
-
+ 
 <div class="toolbar">
   <div class="month-nav">
     <button onclick="changeMonth(-1)">&#8592;</button>
@@ -122,28 +125,32 @@ input.note-input:focus{background:#fffde7;}
     <span id="dbStatus">Connecting...</span>
   </span>
 </div>
-
+ 
 <div class="grid-wrap">
   <table>
     <thead id="tableHead"></thead>
     <tbody id="tableBody"></tbody>
   </table>
 </div>
-
-<div class="footer-note" style="display:flex;justify-content:space-between;align-items:flex-end;padding:0.6rem 1rem;">
-  <span style="font-style:italic;">All Duty Exchange to be informed to HOD</span>
-  <div style="text-align:center;min-width:160px;">
-    <div style="border-top:1px solid #aaa;padding-top:4px;font-size:0.72rem;color:var(--text);font-weight:600;letter-spacing:0.04em;">HOD SIGNATURE</div>
-    <div style="font-size:0.65rem;color:var(--muted);margin-top:2px;">Head of Department, OBG</div>
+ 
+<div class="footer-note" style="display:flex;justify-content:space-between;align-items:flex-end;padding:0.75rem 1rem;">
+  <span style="font-style:italic;font-size:0.7rem;">All Duty Exchange to be informed to HOD</span>
+  <div style="text-align:center;min-width:220px;">
+    <div style="height:80px;border:1px dashed #bbb;border-radius:4px;margin-bottom:6px;background:#fafafa;display:flex;align-items:center;justify-content:center;">
+      <span style="font-size:0.65rem;color:#ccc;letter-spacing:0.05em;">SIGN &amp; SEAL</span>
+    </div>
+    <div style="border-top:1.5px solid #555;padding-top:5px;font-size:0.72rem;color:var(--text);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;">HOD Signature</div>
+    <div style="font-size:0.65rem;color:var(--muted);margin-top:3px;">Head of Department, OBG</div>
+    <div style="font-size:0.63rem;color:var(--muted);">ACS Medical College &amp; Hospital</div>
   </div>
 </div>
-
+ 
 <div class="legend">
   <div class="legend-item"><div class="legend-box" style="background:var(--reg-bg);border-color:var(--reg-b)"></div>Regular</div>
   <div class="legend-item"><div class="legend-box" style="background:var(--full-bg);border-color:var(--full-b)"></div>Full Day <strong style="font-size:0.65rem;color:#1565c0">(bold date)</strong></div>
   <div class="legend-item"><div class="legend-box" style="background:var(--leave-bg);border-color:var(--leave-b)"></div>Leave</div>
 </div>
-
+ 
 <script>
 const BASE = 'https://zmjfzhpypaiczaricoxm.supabase.co/rest/v1';
 const KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptamZ6aHB5cGFpY3phcmljb3htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NDU3MTQsImV4cCI6MjA4OTIyMTcxNH0.Q6HtgDA1wm3_FjmUbM_DdBWKIe3zHwvkn-egOu1hXtE';
@@ -155,7 +162,7 @@ const HDR  = {
   'Accept-Profile': 'public',
   'Content-Profile': 'public'
 };
-
+ 
 async function api(method, table, params='', body=null) {
   const opts = { method, headers: { ...HDR } };
   if (body) opts.body = JSON.stringify(body);
@@ -167,7 +174,7 @@ async function api(method, table, params='', body=null) {
   if (!res.ok) throw data || { message: res.statusText, status: res.status };
   return data;
 }
-
+ 
 // ── March 2026 seed data (from image) ─────────────────────────
 // [date, s1_doctor, s1_shift, s2_doctor, s2_shift, note]
 // Bold names in image = FULL, normal = REG
@@ -204,25 +211,25 @@ const MARCH_DATA = [
   ['2026-03-30','Dr.Rathna','REG','Dr.Prathibha','REG',''],
   ['2026-03-31','Dr.Ganga','FULL','Dr.Anuthomas','REG',''],
 ];
-
+ 
 const MARCH_DOCTORS = ['Dr.Divya','Dr.Ramani','Dr.Rathna','Dr.Varshini','Dr.Sharanya',
   'Dr.Ramya','Dr.Manju','Dr.Ganga','Dr.Devipriya','Dr.Abilashini',
   'Dr.Prathibha','Dr.Yasmine','Dr.Sandhya','Dr.Anuthomas','Dr.Vinitha'];
-
+ 
 // ── Constants ─────────────────────────────────────────────────
 const SHIFTS       = ['—','REG','FULL','LEAVE'];
 const SHIFT_LABELS = {'—':'—','REG':'Regular','FULL':'Full Day','LEAVE':'Leave'};
 const MONTHS       = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const DAYS_SHORT   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-
+ 
 let doctors   = [];
 let dutiesMap = {};
 let notesMap  = {};
-
+ 
 const now = new Date();
 let curYear  = now.getFullYear();
 let curMonth = now.getMonth();
-
+ 
 // ── UI helpers ────────────────────────────────────────────────
 function toast(msg, err=false) {
   const el = document.getElementById('toast');
@@ -250,7 +257,7 @@ function loader(v, msg='') {
   document.getElementById('loader').classList.toggle('hidden', !v);
   document.getElementById('loaderMsg').textContent = msg;
 }
-
+ 
 // ── Data ──────────────────────────────────────────────────────
 async function loadDoctors() {
   try {
@@ -259,7 +266,7 @@ async function loadDoctors() {
     clearError();
   } catch(e) { showError('Loading doctors', e); }
 }
-
+ 
 async function loadMonthData() {
   const y = curYear, m = curMonth;
   const from = `${y}-${String(m+1).padStart(2,'0')}-01`;
@@ -276,11 +283,11 @@ async function loadMonthData() {
     clearError();
   } catch(e) { showError('Loading month data', e); }
 }
-
+ 
 // ── Import March 2026 ─────────────────────────────────────────
 async function importMarch2026() {
   if (!confirm('This will import all March 2026 data from the physical roster.\nExisting March 2026 entries will be overwritten. Continue?')) return;
-
+ 
   loader(true, 'Importing doctors...');
   try {
     // 1. Add missing doctors
@@ -294,23 +301,23 @@ async function importMarch2026() {
         }
       }
     }
-
+ 
     // 2. Insert duties + notes
     let done = 0;
     for (const [date, d1, s1, d2, s2, note] of MARCH_DATA) {
       done++;
       loader(true, `Saving ${date} (${done}/${MARCH_DATA.length})...`);
-
+ 
       // Slot 1
       const ex1 = await api('GET','duties',`date=eq.${date}&slot=eq.s1&select=id`);
       if (ex1.length) await api('PATCH','duties',`date=eq.${date}&slot=eq.s1`,{ doctor_name:d1, shift_type:s1 });
       else            await api('POST','duties','',{ date, slot:'s1', doctor_name:d1, shift_type:s1 });
-
+ 
       // Slot 2
       const ex2 = await api('GET','duties',`date=eq.${date}&slot=eq.s2&select=id`);
       if (ex2.length) await api('PATCH','duties',`date=eq.${date}&slot=eq.s2`,{ doctor_name:d2, shift_type:s2 });
       else            await api('POST','duties','',{ date, slot:'s2', doctor_name:d2, shift_type:s2 });
-
+ 
       // Note
       if (note) {
         const exn = await api('GET','notes',`date=eq.${date}&select=id`);
@@ -318,7 +325,7 @@ async function importMarch2026() {
         else            await api('POST','notes','',{ date, note });
       }
     }
-
+ 
     // Navigate to March 2026 and reload
     curYear = 2026; curMonth = 2;
     await loadMonthData();
@@ -333,7 +340,7 @@ async function importMarch2026() {
     toast('Import failed — see error above', true);
   }
 }
-
+ 
 // ── Mutations ─────────────────────────────────────────────────
 async function addDoctor() {
   const inp = document.getElementById('docInput');
@@ -352,7 +359,7 @@ async function addDoctor() {
   } catch(e) { showError('Adding doctor: '+name, e); toast('Failed to add', true); }
   inp.focus();
 }
-
+ 
 async function removeDoctor(name) {
   if (!confirm('Remove '+name+'?')) return;
   try {
@@ -364,7 +371,7 @@ async function removeDoctor(name) {
     render();
   } catch(e) { showError('Removing doctor', e); toast('Remove failed', true); }
 }
-
+ 
 async function saveDuty(date, slot, doctor_name, shift_type) {
   try {
     if (!doctor_name && (!shift_type || shift_type==='—')) {
@@ -376,7 +383,7 @@ async function saveDuty(date, slot, doctor_name, shift_type) {
     }
   } catch(e) { showError('Saving duty '+date+' '+slot, e); }
 }
-
+ 
 async function saveNote(date, note) {
   try {
     if (!note) { await api('DELETE','notes','date=eq.'+date); return; }
@@ -385,7 +392,7 @@ async function saveNote(date, note) {
     else                  await api('POST','notes','',{ date, note });
   } catch(e) { showError('Saving note '+date, e); }
 }
-
+ 
 // ── Handlers ──────────────────────────────────────────────────
 function handleDocChange(sel, date, slot) {
   const key = date+'_'+slot;
@@ -393,7 +400,7 @@ function handleDocChange(sel, date, slot) {
   dutiesMap[key].doctor_name = sel.value;
   saveDuty(date, slot, sel.value, dutiesMap[key].shift_type);
 }
-
+ 
 function handleShiftChange(sel, date, slot) {
   const val = sel.value;
   sel.className = 'shift-select'+(val==='—' ? '' : ' s-'+val);
@@ -405,20 +412,20 @@ function handleShiftChange(sel, date, slot) {
   const row = sel.closest('tr');
   if (row) updateRowBold(row, date);
 }
-
+ 
 function updateRowBold(row, date) {
   const s1 = dutiesMap[date+'_s1']?.shift_type;
   const s2 = dutiesMap[date+'_s2']?.shift_type;
   row.classList.toggle('has-full', s1==='FULL' || s2==='FULL');
 }
-
+ 
 let noteTimers = {};
 function handleNoteChange(inp, date) {
   notesMap[date] = inp.value;
   clearTimeout(noteTimers[date]);
   noteTimers[date] = setTimeout(() => saveNote(date, inp.value), 800);
 }
-
+ 
 // ── Render ────────────────────────────────────────────────────
 function changeMonth(dir) {
   curMonth += dir;
@@ -427,24 +434,24 @@ function changeMonth(dir) {
   loader(true, '');
   loadMonthData().then(() => { loader(false); render(); });
 }
-
+ 
 function renderChips() {
   const el = document.getElementById('doctorChips');
   el.innerHTML = doctors.length
     ? doctors.map(d => `<div class="chip">${d}<span class="rm" onclick="removeDoctor('${esc(d)}')">✕</span></div>`).join('')
     : '<span style="font-size:0.7rem;color:#aaa">No doctors — add one above</span>';
 }
-
+ 
 function esc(s) { return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
-
+ 
 function render() {
   const y = curYear, m = curMonth;
   const days     = new Date(y, m+1, 0).getDate();
   const todayStr = new Date().toISOString().slice(0,10);
-
+ 
   document.getElementById('rosterTitle').textContent = MONTHS[m]+' - '+y+' (Duty Roster)';
   document.getElementById('monthLabel').textContent  = MONTHS[m]+' '+y;
-
+ 
   document.getElementById('tableHead').innerHTML =
     `<tr>
       <th class="left" style="min-width:75px">Date</th>
@@ -453,12 +460,12 @@ function render() {
       <th style="min-width:240px">Slot 2</th>
       <th style="min-width:160px">Notes</th>
     </tr>`;
-
+ 
   const docBase   = '<option value="">— Doctor —</option>'+doctors.map(d=>`<option value="${d}">${d}</option>`).join('');
   const mkDoc     = v => v ? docBase.replace(`value="${v}"`,`value="${v}" selected`) : docBase;
   const mkShift   = v => SHIFTS.map(s=>`<option value="${s}"${s===v?' selected':''}>${SHIFT_LABELS[s]}</option>`).join('');
   const sCls      = v => v && v!=='—' ? ' s-'+v : '';
-
+ 
   let html = '';
   for (let day = 1; day <= days; day++) {
     const dt   = new Date(y, m, day);
@@ -468,12 +475,12 @@ function render() {
     const d2   = dutiesMap[ds+'_s2'] || { doctor_name:'', shift_type:'—' };
     const hasFull = d1.shift_type==='FULL' || d2.shift_type==='FULL';
     const nt   = (notesMap[ds]||'').replace(/"/g,'&quot;');
-
+ 
     let cls = '';
     if (ds===todayStr)   cls = 'today-row';
     else if (dow===0)    cls = 'sunday';
     if (hasFull) cls += (cls ? ' ' : '') + 'has-full';
-
+ 
     html += `<tr class="${cls}">
       <td class="date-cell">${String(day).padStart(2,'0')}.${String(m+1).padStart(2,'0')}.${String(y).slice(2)}</td>
       <td class="day-cell">${DAYS_SHORT[dow]}</td>
@@ -490,9 +497,9 @@ function render() {
   }
   document.getElementById('tableBody').innerHTML = html;
 }
-
+ 
 document.getElementById('docInput').addEventListener('keydown', e => { if(e.key==='Enter') addDoctor(); });
-
+ 
 (async () => {
   loader(true, '');
   await Promise.all([loadDoctors(), loadMonthData()]);
