@@ -22,26 +22,29 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 #dblog{background:#fffde7;border:1px solid #f9a825;border-radius:4px;padding:0.6rem 0.9rem;margin-bottom:1rem;font-size:0.72rem;color:#5d4037;display:none;}
 #dblog.visible{display:block;}
 #dblog pre{white-space:pre-wrap;word-break:break-all;margin-top:4px;font-family:monospace;font-size:0.68rem;}
-#loader{position:fixed;inset:0;background:rgba(245,244,240,0.85);display:flex;align-items:center;justify-content:center;font-size:0.85rem;color:var(--muted);z-index:99;}
+#loader{position:fixed;inset:0;background:rgba(245,244,240,0.88);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;font-size:0.85rem;color:var(--muted);z-index:99;}
 #loader.hidden{display:none;}
+#loaderMsg{font-size:0.75rem;color:var(--muted);}
 
 .hospital-header{text-align:center;background:var(--header);color:var(--header-text);padding:0.9rem 1.5rem;margin-bottom:1.25rem;border-radius:4px;}
 .hospital-header h1{font-size:1rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.2rem;}
 .hospital-header h2{font-size:0.8rem;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;opacity:0.8;margin-bottom:0.15rem;}
 .hospital-header h3{font-size:0.75rem;font-weight:600;letter-spacing:0.05em;opacity:0.9;}
 
-.toolbar{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;background:var(--surface);padding:0.65rem 1rem;border:1px solid var(--border);border-radius:4px;}
+.toolbar{display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap;background:var(--surface);padding:0.65rem 1rem;border:1px solid var(--border);border-radius:4px;}
 .month-nav{display:flex;align-items:center;gap:0.6rem;}
 .month-nav button{background:none;border:1px solid var(--border-dark);color:var(--text);font-size:0.75rem;padding:0.3rem 0.6rem;cursor:pointer;border-radius:3px;font-family:var(--font);}
 .month-nav button:hover{background:#eee;}
 .month-nav .month-label{font-size:0.8rem;font-weight:600;min-width:120px;text-align:center;}
-.add-doctor{display:flex;margin-left:auto;}
+.add-doctor{display:flex;}
 .add-doctor input{border:1px solid var(--border-dark);border-right:none;background:#fff;color:var(--text);font-family:var(--font);font-size:0.75rem;padding:0.35rem 0.65rem;width:150px;outline:none;border-radius:3px 0 0 3px;}
 .add-doctor input:focus{border-color:#555;}
 .add-doctor button{border:1px solid var(--border-dark);background:var(--header);color:#fff;font-family:var(--font);font-size:0.75rem;padding:0.35rem 0.75rem;cursor:pointer;border-radius:0 3px 3px 0;}
 .add-doctor button:hover{background:#243060;}
-.export-btn{border:1px solid var(--border-dark);background:none;color:var(--text);font-family:var(--font);font-size:0.72rem;padding:0.35rem 0.75rem;cursor:pointer;border-radius:3px;white-space:nowrap;}
-.export-btn:hover{background:#eee;}
+.icon-btn{border:1px solid var(--border-dark);background:none;color:var(--text);font-family:var(--font);font-size:0.72rem;padding:0.35rem 0.75rem;cursor:pointer;border-radius:3px;white-space:nowrap;}
+.icon-btn:hover{background:#eee;}
+.import-btn{border:1px solid #1565c0;background:#e3f2fd;color:#1565c0;font-family:var(--font);font-size:0.72rem;padding:0.35rem 0.75rem;cursor:pointer;border-radius:3px;white-space:nowrap;font-weight:500;}
+.import-btn:hover{background:#bbdefb;}
 .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4caf50;margin-right:5px;}
 .status-dot.offline{background:#f44336;}
 
@@ -57,8 +60,13 @@ thead th{background:var(--header);color:var(--header-text);font-size:0.7rem;font
 thead th.left{text-align:left;}
 tbody tr.sunday{background:var(--sunday);}
 tbody tr.today-row{background:var(--today);}
-td.date-cell{padding:0.4rem 0.6rem;white-space:nowrap;font-size:0.75rem;font-weight:500;text-align:center;min-width:70px;}
-td.day-cell{padding:0.4rem 0.6rem;white-space:nowrap;font-size:0.75rem;text-align:left;min-width:80px;}
+
+/* Bold date+day when any slot is Full Day */
+tbody tr.has-full td.date-cell,
+tbody tr.has-full td.day-cell{font-weight:700;color:#1565c0;}
+
+td.date-cell{padding:0.4rem 0.6rem;white-space:nowrap;font-size:0.75rem;font-weight:400;text-align:center;min-width:70px;transition:font-weight 0.1s;}
+td.day-cell{padding:0.4rem 0.6rem;white-space:nowrap;font-size:0.75rem;text-align:left;min-width:80px;transition:font-weight 0.1s;}
 tr.sunday td.day-cell{font-weight:700;}
 td.duty-cell{padding:3px 4px;text-align:center;min-width:220px;}
 .duty-wrap{display:flex;gap:4px;align-items:center;justify-content:center;}
@@ -67,7 +75,7 @@ select.doc-select:focus{border-color:#666;}
 select.shift-select{-webkit-appearance:none;appearance:none;border:1px solid var(--border);background:#fff;font-family:var(--font);font-size:0.68rem;padding:0.28rem 0.3rem;width:80px;cursor:pointer;outline:none;border-radius:3px;text-align:center;font-weight:500;}
 select.shift-select option{background:#fff;color:var(--text);}
 select.shift-select.s-REG{background:var(--reg-bg);color:var(--reg-text);border-color:var(--reg-b);}
-select.shift-select.s-FULL{background:var(--full-bg);color:var(--full-text);border-color:var(--full-b);}
+select.shift-select.s-FULL{background:var(--full-bg);color:var(--full-text);border-color:var(--full-b);font-weight:700;}
 select.shift-select.s-LEAVE{background:var(--leave-bg);color:var(--leave-text);border-color:var(--leave-b);}
 td.note-cell{padding:3px 6px;min-width:160px;}
 input.note-input{border:none;background:transparent;font-family:var(--font);font-size:0.72rem;color:var(--text);width:100%;outline:none;padding:0.25rem 0.1rem;}
@@ -82,7 +90,10 @@ input.note-input:focus{background:#fffde7;}
 </head>
 <body>
 
-<div id="loader">Connecting to database...</div>
+<div id="loader">
+  <span>Loading roster...</span>
+  <span id="loaderMsg"></span>
+</div>
 <div id="toast"></div>
 <div id="dblog"><strong>⚠ Database Error</strong><pre id="dblogtext"></pre></div>
 
@@ -102,9 +113,10 @@ input.note-input:focus{background:#fffde7;}
   </div>
   <div class="add-doctor">
     <input type="text" id="docInput" placeholder="Doctor name" maxlength="30"/>
-    <button onclick="addDoctor()">+ Add Doctor</button>
+    <button onclick="addDoctor()">+ Add</button>
   </div>
-  <button class="export-btn" onclick="window.print()">&#128438; Print</button>
+  <button class="import-btn" onclick="importMarch2026()">&#8659; Import March 2026</button>
+  <button class="icon-btn" onclick="window.print()">&#128438; Print</button>
   <span style="font-size:0.68rem;color:var(--muted);margin-left:auto;display:flex;align-items:center">
     <span class="status-dot" id="dbDot"></span>
     <span id="dbStatus">Connecting...</span>
@@ -118,41 +130,94 @@ input.note-input:focus{background:#fffde7;}
   </table>
 </div>
 
-<div class="footer-note">All Duty Exchange to be informed to HOD</div>
+<div class="footer-note" style="display:flex;justify-content:space-between;align-items:flex-end;padding:0.6rem 1rem;">
+  <span style="font-style:italic;">All Duty Exchange to be informed to HOD</span>
+  <div style="text-align:center;min-width:160px;">
+    <div style="border-top:1px solid #aaa;padding-top:4px;font-size:0.72rem;color:var(--text);font-weight:600;letter-spacing:0.04em;">HOD SIGNATURE</div>
+    <div style="font-size:0.65rem;color:var(--muted);margin-top:2px;">Head of Department, OBG</div>
+  </div>
+</div>
 
 <div class="legend">
   <div class="legend-item"><div class="legend-box" style="background:var(--reg-bg);border-color:var(--reg-b)"></div>Regular</div>
-  <div class="legend-item"><div class="legend-box" style="background:var(--full-bg);border-color:var(--full-b)"></div>Full Day</div>
+  <div class="legend-item"><div class="legend-box" style="background:var(--full-bg);border-color:var(--full-b)"></div>Full Day <strong style="font-size:0.65rem;color:#1565c0">(bold date)</strong></div>
   <div class="legend-item"><div class="legend-box" style="background:var(--leave-bg);border-color:var(--leave-b)"></div>Leave</div>
 </div>
 
 <script>
-// ── Supabase config ───────────────────────────────────────────
 const BASE = 'https://zmjfzhpypaiczaricoxm.supabase.co/rest/v1';
 const KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptamZ6aHB5cGFpY3phcmljb3htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NDU3MTQsImV4cCI6MjA4OTIyMTcxNH0.Q6HtgDA1wm3_FjmUbM_DdBWKIe3zHwvkn-egOu1hXtE';
-const HDR  = { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+const HDR  = {
+  'apikey': KEY,
+  'Authorization': 'Bearer ' + KEY,
+  'Content-Type': 'application/json',
+  'Prefer': 'return=representation',
+  'Accept-Profile': 'public',
+  'Content-Profile': 'public'
+};
 
 async function api(method, table, params='', body=null) {
   const opts = { method, headers: { ...HDR } };
   if (body) opts.body = JSON.stringify(body);
-  if (method === 'POST') opts.headers['Prefer'] = 'return=representation';
-  if (method === 'PATCH' || method === 'PUT') opts.headers['Prefer'] = 'return=representation,resolution=merge-duplicates';
-  const res = await fetch(`${BASE}/${table}${params ? '?' + params : ''}`, opts);
+  if (method === 'POST')  opts.headers['Prefer'] = 'return=representation';
+  if (method === 'PATCH') opts.headers['Prefer'] = 'return=representation';
+  const res  = await fetch(`${BASE}/${table}${params ? '?'+params : ''}`, opts);
   const text = await res.text();
   const data = text ? JSON.parse(text) : null;
   if (!res.ok) throw data || { message: res.statusText, status: res.status };
   return data;
 }
 
-// ── Constants ─────────────────────────────────────────────────
-const SHIFTS      = ['—','REG','FULL','LEAVE'];
-const SHIFT_LABELS= {'—':'—','REG':'Regular','FULL':'Full Day','LEAVE':'Leave'};
-const MONTHS      = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const DAYS_SHORT  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+// ── March 2026 seed data (from image) ─────────────────────────
+// [date, s1_doctor, s1_shift, s2_doctor, s2_shift, note]
+// Bold names in image = FULL, normal = REG
+const MARCH_DATA = [
+  ['2026-03-01','Dr.Divya','REG','Dr.Anuthomas','FULL','Thiruverkadu: 3.3.26-Dr.Sharanya'],
+  ['2026-03-02','Dr.Ramani','REG','Dr.Abilashini','REG','Thiruverkadu: 10.3.26-Dr.Ganga'],
+  ['2026-03-03','Dr.Rathna','REG','Dr.Prathibha','REG','Thiruverkadu: 17.3.26-Dr.Sharanya'],
+  ['2026-03-04','Dr.Varshini','REG','Dr.Sandhya','REG','Thiruverkadu: 24.3.26-Dr.Sharanya'],
+  ['2026-03-05','Dr.Sharanya','REG','Dr.Yasmine','REG',''],
+  ['2026-03-06','Dr.Ramya','REG','Dr.Devipriya','REG',''],
+  ['2026-03-07','Dr.Manju','REG','Dr.Anuthomas','REG',''],
+  ['2026-03-08','Dr.Ganga','FULL','Dr.Rathna','FULL','Parivakam camp Thursday: 5.3.26-Dr.Anuthomas'],
+  ['2026-03-09','Dr.Varshini','REG','Dr.Abilashini','REG','Parivakam: 5.3.26-Dr.Anuthomas'],
+  ['2026-03-10','Dr.Devipriya','REG','Dr.Divya','FULL','Parivakam: 12.3.26-Dr.Sandhya'],
+  ['2026-03-11','Dr.Sharanya','REG','Dr.Ramya','REG','Parivakam: 26.3.26-Dr.Ramani'],
+  ['2026-03-12','Dr.Ramani','REG','Dr.Yasmine','REG',''],
+  ['2026-03-13','Dr.Manju','REG','Dr.Sandhya','REG',''],
+  ['2026-03-14','Dr.Prathibha','REG','Dr.Abilashini','REG',''],
+  ['2026-03-15','Dr.Yasmine','FULL','Dr.Ramya','FULL',''],
+  ['2026-03-16','Dr.Divya','REG','Dr.Anuthomas','REG',''],
+  ['2026-03-17','Dr.Ganga','REG','Dr.Rathna','REG',''],
+  ['2026-03-18','Dr.Varshini','REG','Dr.Yasmine','REG',''],
+  ['2026-03-19','Dr.Ramya','REG','Dr.Sharanya','REG',''],
+  ['2026-03-20','Dr.Ramani','REG','Dr.Devipriya','REG',''],
+  ['2026-03-21','Dr.Manju','REG','Dr.Divya','REG',''],
+  ['2026-03-22','Dr.Varshini','FULL','Dr.Prathibha','FULL',''],
+  ['2026-03-23','Dr.Rathna','REG','Dr.Sandhya','REG',''],
+  ['2026-03-24','Dr.Yasmine','REG','Dr.Anuthomas','REG',''],
+  ['2026-03-25','Dr.Vinitha','REG','Dr.Ramya','REG',''],
+  ['2026-03-26','Dr.Manju','REG','Dr.Devipriya','REG',''],
+  ['2026-03-27','Dr.Abilashini','REG','Dr.Ganga','REG',''],
+  ['2026-03-28','Dr.Sharanya','FULL','Dr.Ramani','FULL',''],
+  ['2026-03-29','Dr.Vinitha','FULL','Dr.Sandhya','FULL',''],
+  ['2026-03-30','Dr.Rathna','REG','Dr.Prathibha','REG',''],
+  ['2026-03-31','Dr.Ganga','FULL','Dr.Anuthomas','REG',''],
+];
 
-let doctors  = [];
-let dutiesMap= {};
-let notesMap = {};
+const MARCH_DOCTORS = ['Dr.Divya','Dr.Ramani','Dr.Rathna','Dr.Varshini','Dr.Sharanya',
+  'Dr.Ramya','Dr.Manju','Dr.Ganga','Dr.Devipriya','Dr.Abilashini',
+  'Dr.Prathibha','Dr.Yasmine','Dr.Sandhya','Dr.Anuthomas','Dr.Vinitha'];
+
+// ── Constants ─────────────────────────────────────────────────
+const SHIFTS       = ['—','REG','FULL','LEAVE'];
+const SHIFT_LABELS = {'—':'—','REG':'Regular','FULL':'Full Day','LEAVE':'Leave'};
+const MONTHS       = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS_SHORT   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+let doctors   = [];
+let dutiesMap = {};
+let notesMap  = {};
 
 const now = new Date();
 let curYear  = now.getFullYear();
@@ -168,7 +233,10 @@ function toast(msg, err=false) {
 }
 function showError(ctx, err) {
   const msg = err?.message || err?.details || err?.error || JSON.stringify(err);
-  document.getElementById('dblogtext').textContent = 'Context : ' + ctx + '\nMessage : ' + msg + (err?.code ? '\nCode    : ' + err.code : '') + (err?.hint ? '\nHint    : ' + err.hint : '');
+  document.getElementById('dblogtext').textContent =
+    'Context : ' + ctx + '\nMessage : ' + msg +
+    (err?.code ? '\nCode    : ' + err.code : '') +
+    (err?.hint ? '\nHint    : ' + err.hint : '');
   document.getElementById('dblog').classList.add('visible');
   document.getElementById('dbDot').className = 'status-dot offline';
   document.getElementById('dbStatus').textContent = 'DB Error';
@@ -178,12 +246,15 @@ function clearError() {
   document.getElementById('dbDot').className = 'status-dot';
   document.getElementById('dbStatus').textContent = 'Connected';
 }
-function loader(v) { document.getElementById('loader').classList.toggle('hidden', !v); }
+function loader(v, msg='') {
+  document.getElementById('loader').classList.toggle('hidden', !v);
+  document.getElementById('loaderMsg').textContent = msg;
+}
 
-// ── Load ──────────────────────────────────────────────────────
+// ── Data ──────────────────────────────────────────────────────
 async function loadDoctors() {
   try {
-    const data = await api('GET', 'doctors', 'select=name&order=created_at.asc');
+    const data = await api('GET','doctors','select=name&order=created_at.asc');
     doctors = data.map(d => d.name);
     clearError();
   } catch(e) { showError('Loading doctors', e); }
@@ -206,6 +277,63 @@ async function loadMonthData() {
   } catch(e) { showError('Loading month data', e); }
 }
 
+// ── Import March 2026 ─────────────────────────────────────────
+async function importMarch2026() {
+  if (!confirm('This will import all March 2026 data from the physical roster.\nExisting March 2026 entries will be overwritten. Continue?')) return;
+
+  loader(true, 'Importing doctors...');
+  try {
+    // 1. Add missing doctors
+    for (const name of MARCH_DOCTORS) {
+      if (!doctors.includes(name)) {
+        try {
+          await api('POST','doctors','',{ name });
+          doctors.push(name);
+        } catch(e) {
+          if (!e?.code?.includes('23505')) throw e; // ignore duplicate
+        }
+      }
+    }
+
+    // 2. Insert duties + notes
+    let done = 0;
+    for (const [date, d1, s1, d2, s2, note] of MARCH_DATA) {
+      done++;
+      loader(true, `Saving ${date} (${done}/${MARCH_DATA.length})...`);
+
+      // Slot 1
+      const ex1 = await api('GET','duties',`date=eq.${date}&slot=eq.s1&select=id`);
+      if (ex1.length) await api('PATCH','duties',`date=eq.${date}&slot=eq.s1`,{ doctor_name:d1, shift_type:s1 });
+      else            await api('POST','duties','',{ date, slot:'s1', doctor_name:d1, shift_type:s1 });
+
+      // Slot 2
+      const ex2 = await api('GET','duties',`date=eq.${date}&slot=eq.s2&select=id`);
+      if (ex2.length) await api('PATCH','duties',`date=eq.${date}&slot=eq.s2`,{ doctor_name:d2, shift_type:s2 });
+      else            await api('POST','duties','',{ date, slot:'s2', doctor_name:d2, shift_type:s2 });
+
+      // Note
+      if (note) {
+        const exn = await api('GET','notes',`date=eq.${date}&select=id`);
+        if (exn.length) await api('PATCH','notes',`date=eq.${date}`,{ note });
+        else            await api('POST','notes','',{ date, note });
+      }
+    }
+
+    // Navigate to March 2026 and reload
+    curYear = 2026; curMonth = 2;
+    await loadMonthData();
+    loader(false);
+    clearError();
+    renderChips();
+    render();
+    toast('March 2026 imported successfully ✓');
+  } catch(e) {
+    loader(false);
+    showError('Importing March 2026', e);
+    toast('Import failed — see error above', true);
+  }
+}
+
 // ── Mutations ─────────────────────────────────────────────────
 async function addDoctor() {
   const inp = document.getElementById('docInput');
@@ -214,24 +342,24 @@ async function addDoctor() {
   if (!name.toLowerCase().startsWith('dr.')) name = 'Dr.' + name;
   if (doctors.includes(name)) { toast('Already exists'); inp.focus(); return; }
   try {
-    await api('POST', 'doctors', '', { name });
+    await api('POST','doctors','',{ name });
     doctors.push(name);
     inp.value = '';
     clearError();
     toast(name + ' added ✓');
     renderChips();
     render();
-  } catch(e) { showError('Adding doctor: ' + name, e); toast('Failed to add', true); }
+  } catch(e) { showError('Adding doctor: '+name, e); toast('Failed to add', true); }
   inp.focus();
 }
 
 async function removeDoctor(name) {
-  if (!confirm('Remove ' + name + '?')) return;
+  if (!confirm('Remove '+name+'?')) return;
   try {
-    await api('DELETE', 'doctors', 'name=eq.' + encodeURIComponent(name));
+    await api('DELETE','doctors','name=eq.'+encodeURIComponent(name));
     doctors = doctors.filter(d => d !== name);
     clearError();
-    toast(name + ' removed');
+    toast(name+' removed');
     renderChips();
     render();
   } catch(e) { showError('Removing doctor', e); toast('Remove failed', true); }
@@ -239,33 +367,23 @@ async function removeDoctor(name) {
 
 async function saveDuty(date, slot, doctor_name, shift_type) {
   try {
-    if (!doctor_name && (!shift_type || shift_type === '—')) {
+    if (!doctor_name && (!shift_type || shift_type==='—')) {
       await api('DELETE','duties',`date=eq.${date}&slot=eq.${slot}`);
     } else {
-      // Try update first, then insert
-      const existing = await api('GET','duties',`date=eq.${date}&slot=eq.${slot}&select=id`);
-      if (existing && existing.length > 0) {
-        await api('PATCH','duties',`date=eq.${date}&slot=eq.${slot}`, { doctor_name: doctor_name||null, shift_type: shift_type||'—' });
-      } else {
-        await api('POST','duties','', { date, slot, doctor_name: doctor_name||null, shift_type: shift_type||'—' });
-      }
+      const ex = await api('GET','duties',`date=eq.${date}&slot=eq.${slot}&select=id`);
+      if (ex && ex.length) await api('PATCH','duties',`date=eq.${date}&slot=eq.${slot}`,{ doctor_name:doctor_name||null, shift_type:shift_type||'—' });
+      else                  await api('POST','duties','',{ date, slot, doctor_name:doctor_name||null, shift_type:shift_type||'—' });
     }
-  } catch(e) { showError('Saving duty ' + date + ' ' + slot, e); }
+  } catch(e) { showError('Saving duty '+date+' '+slot, e); }
 }
 
 async function saveNote(date, note) {
   try {
-    if (!note) {
-      await api('DELETE','notes','date=eq.'+date);
-    } else {
-      const existing = await api('GET','notes','date=eq.'+date+'&select=id');
-      if (existing && existing.length > 0) {
-        await api('PATCH','notes','date=eq.'+date, { note });
-      } else {
-        await api('POST','notes','', { date, note });
-      }
-    }
-  } catch(e) { showError('Saving note ' + date, e); }
+    if (!note) { await api('DELETE','notes','date=eq.'+date); return; }
+    const ex = await api('GET','notes','date=eq.'+date+'&select=id');
+    if (ex && ex.length) await api('PATCH','notes','date=eq.'+date,{ note });
+    else                  await api('POST','notes','',{ date, note });
+  } catch(e) { showError('Saving note '+date, e); }
 }
 
 // ── Handlers ──────────────────────────────────────────────────
@@ -278,11 +396,20 @@ function handleDocChange(sel, date, slot) {
 
 function handleShiftChange(sel, date, slot) {
   const val = sel.value;
-  sel.className = 'shift-select' + (val==='—' ? '' : ' s-'+val);
+  sel.className = 'shift-select'+(val==='—' ? '' : ' s-'+val);
   const key = date+'_'+slot;
   if (!dutiesMap[key]) dutiesMap[key] = { doctor_name:'', shift_type:'—' };
   dutiesMap[key].shift_type = val;
   saveDuty(date, slot, dutiesMap[key].doctor_name, val);
+  // Update bold class on the row immediately
+  const row = sel.closest('tr');
+  if (row) updateRowBold(row, date);
+}
+
+function updateRowBold(row, date) {
+  const s1 = dutiesMap[date+'_s1']?.shift_type;
+  const s2 = dutiesMap[date+'_s2']?.shift_type;
+  row.classList.toggle('has-full', s1==='FULL' || s2==='FULL');
 }
 
 let noteTimers = {};
@@ -297,7 +424,7 @@ function changeMonth(dir) {
   curMonth += dir;
   if (curMonth > 11) { curMonth = 0; curYear++; }
   if (curMonth < 0)  { curMonth = 11; curYear--; }
-  loader(true);
+  loader(true, '');
   loadMonthData().then(() => { loader(false); render(); });
 }
 
@@ -312,7 +439,7 @@ function esc(s) { return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
 
 function render() {
   const y = curYear, m = curMonth;
-  const days = new Date(y, m+1, 0).getDate();
+  const days     = new Date(y, m+1, 0).getDate();
   const todayStr = new Date().toISOString().slice(0,10);
 
   document.getElementById('rosterTitle').textContent = MONTHS[m]+' - '+y+' (Duty Roster)';
@@ -327,21 +454,25 @@ function render() {
       <th style="min-width:160px">Notes</th>
     </tr>`;
 
-  const docBase = '<option value="">— Doctor —</option>' +
-    doctors.map(d => `<option value="${d}">${d}</option>`).join('');
-  const mkDoc   = v => v ? docBase.replace(`value="${v}"`,`value="${v}" selected`) : docBase;
-  const mkShift = v => SHIFTS.map(s => `<option value="${s}"${s===v?' selected':''}>${SHIFT_LABELS[s]}</option>`).join('');
-  const sCls    = v => v && v!=='—' ? ' s-'+v : '';
+  const docBase   = '<option value="">— Doctor —</option>'+doctors.map(d=>`<option value="${d}">${d}</option>`).join('');
+  const mkDoc     = v => v ? docBase.replace(`value="${v}"`,`value="${v}" selected`) : docBase;
+  const mkShift   = v => SHIFTS.map(s=>`<option value="${s}"${s===v?' selected':''}>${SHIFT_LABELS[s]}</option>`).join('');
+  const sCls      = v => v && v!=='—' ? ' s-'+v : '';
 
   let html = '';
   for (let day = 1; day <= days; day++) {
-    const dt  = new Date(y, m, day);
-    const dow = dt.getDay();
-    const ds  = `${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-    const cls = ds===todayStr ? 'today-row' : dow===0 ? 'sunday' : '';
-    const d1  = dutiesMap[ds+'_s1'] || { doctor_name:'', shift_type:'—' };
-    const d2  = dutiesMap[ds+'_s2'] || { doctor_name:'', shift_type:'—' };
-    const nt  = (notesMap[ds]||'').replace(/"/g,'&quot;');
+    const dt   = new Date(y, m, day);
+    const dow  = dt.getDay();
+    const ds   = `${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const d1   = dutiesMap[ds+'_s1'] || { doctor_name:'', shift_type:'—' };
+    const d2   = dutiesMap[ds+'_s2'] || { doctor_name:'', shift_type:'—' };
+    const hasFull = d1.shift_type==='FULL' || d2.shift_type==='FULL';
+    const nt   = (notesMap[ds]||'').replace(/"/g,'&quot;');
+
+    let cls = '';
+    if (ds===todayStr)   cls = 'today-row';
+    else if (dow===0)    cls = 'sunday';
+    if (hasFull) cls += (cls ? ' ' : '') + 'has-full';
 
     html += `<tr class="${cls}">
       <td class="date-cell">${String(day).padStart(2,'0')}.${String(m+1).padStart(2,'0')}.${String(y).slice(2)}</td>
@@ -363,7 +494,7 @@ function render() {
 document.getElementById('docInput').addEventListener('keydown', e => { if(e.key==='Enter') addDoctor(); });
 
 (async () => {
-  loader(true);
+  loader(true, '');
   await Promise.all([loadDoctors(), loadMonthData()]);
   loader(false);
   renderChips();
