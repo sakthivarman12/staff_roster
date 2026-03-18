@@ -32,17 +32,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .hospital-header h2{font-size:0.8rem;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;opacity:0.8;margin-bottom:0.15rem;}
 .hospital-header h3{font-size:0.75rem;font-weight:600;letter-spacing:0.05em;opacity:0.9;}
  
-/* Summary bar */
-.summary-bar{
-  display:flex;align-items:stretch;gap:0;
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:4px;margin-bottom:1rem;overflow:hidden;
-}
-.summary-item{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:0.6rem 1.2rem;border-right:1px solid var(--border);
-  min-width:100px;
-}
+.summary-bar{display:flex;align-items:stretch;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:4px;margin-bottom:1rem;overflow:hidden;}
+.summary-item{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0.6rem 1.2rem;border-right:1px solid var(--border);min-width:100px;}
 .summary-item:last-child{border-right:none;}
 .summary-item .s-val{font-size:1.4rem;font-weight:700;line-height:1;color:var(--header);}
 .summary-item .s-lbl{font-size:0.65rem;color:var(--muted);margin-top:3px;letter-spacing:0.04em;text-transform:uppercase;}
@@ -64,6 +55,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .icon-btn:hover{background:#eee;}
 .import-btn{border:1px solid #1565c0;background:#e3f2fd;color:#1565c0;font-family:var(--font);font-size:0.72rem;padding:0.35rem 0.75rem;cursor:pointer;border-radius:3px;white-space:nowrap;font-weight:500;}
 .import-btn:hover{background:#bbdefb;}
+.links-btn{border:1px solid #00796b;background:#e0f2f1;color:#00796b;font-family:var(--font);font-size:0.72rem;padding:0.35rem 0.75rem;cursor:pointer;border-radius:3px;white-space:nowrap;font-weight:500;}
+.links-btn:hover{background:#b2dfdb;}
+.autofill-btn{border:1px solid #6a1b9a;background:#f3e5f5;color:#6a1b9a;font-family:var(--font);font-size:0.72rem;padding:0.35rem 0.75rem;cursor:pointer;border-radius:3px;white-space:nowrap;font-weight:500;}
+.autofill-btn:hover{background:#e1bee7;}
 .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4caf50;margin-right:5px;}
 .status-dot.offline{background:#f44336;}
  
@@ -79,10 +74,7 @@ thead th{background:var(--header);color:var(--header-text);font-size:0.7rem;font
 thead th.left{text-align:left;}
 tbody tr.sunday{background:var(--sunday);}
 tbody tr.today-row{background:var(--today);}
- 
-tbody tr.has-full td.date-cell,
-tbody tr.has-full td.day-cell{font-weight:700;color:#1565c0;}
- 
+tbody tr.has-full td.date-cell,tbody tr.has-full td.day-cell{font-weight:700;color:#1565c0;}
 td.date-cell{padding:0.4rem 0.6rem;white-space:nowrap;font-size:0.75rem;font-weight:400;text-align:center;min-width:70px;}
 td.day-cell{padding:0.4rem 0.6rem;white-space:nowrap;font-size:0.75rem;text-align:left;min-width:80px;}
 tr.sunday td.day-cell{font-weight:700;}
@@ -95,49 +87,101 @@ select.shift-select option{background:#fff;color:var(--text);}
 select.shift-select.s-REG{background:var(--reg-bg);color:var(--reg-text);border-color:var(--reg-b);}
 select.shift-select.s-FULL{background:var(--full-bg);color:var(--full-text);border-color:var(--full-b);font-weight:700;}
 select.shift-select.s-LEAVE{background:var(--leave-bg);color:var(--leave-text);border-color:var(--leave-b);}
- 
-/* PDO cell */
 td.pdo-cell{padding:4px 6px;min-width:160px;vertical-align:top;}
 .pdo-empty{color:#ccc;font-size:0.68rem;padding:2px 0;}
-.pdo-badge{
-  display:inline-flex;align-items:center;gap:4px;
-  background:var(--pdo-bg);color:var(--pdo-text);
-  border:1px solid var(--pdo-b);border-radius:3px;
-  font-size:0.68rem;padding:2px 7px;margin:2px 2px;
-  white-space:nowrap;
-}
-.pdo-count{
-  display:inline-block;
-  background:var(--pdo-text);color:#fff;
-  border-radius:50%;width:16px;height:16px;
-  font-size:0.6rem;font-weight:700;
-  line-height:16px;text-align:center;
-  margin-right:2px;
-}
- 
+.pdo-badge{display:inline-flex;align-items:center;gap:4px;background:var(--pdo-bg);color:var(--pdo-text);border:1px solid var(--pdo-b);border-radius:3px;font-size:0.68rem;padding:2px 7px;margin:2px 2px;white-space:nowrap;}
+.pdo-count{display:inline-block;background:var(--pdo-text);color:#fff;border-radius:50%;width:16px;height:16px;font-size:0.6rem;font-weight:700;line-height:16px;text-align:center;margin-right:2px;}
 td.note-cell{padding:3px 6px;min-width:140px;}
 input.note-input{border:none;background:transparent;font-family:var(--font);font-size:0.72rem;color:var(--text);width:100%;outline:none;padding:0.25rem 0.1rem;}
 input.note-input::placeholder{color:#bbb;}
 input.note-input:focus{background:#fffde7;}
- 
 .footer-note{margin-top:0.75rem;font-size:0.7rem;color:var(--muted);padding:0.4rem;border-top:1px solid var(--border);background:var(--surface);}
 .legend{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;font-size:0.7rem;color:var(--muted);}
 .legend-item{display:flex;align-items:center;gap:5px;}
 .legend-box{width:12px;height:12px;border-radius:2px;border:1px solid;}
-@media print{
-  body{padding:0;}
-  .toolbar,.doctor-chips,.legend,#toast,#dblog,.summary-bar{display:none!important;}
-  table{font-size:0.7rem;}
-}
+@media print{body{padding:0;}.toolbar,.doctor-chips,.legend,#toast,#dblog,.summary-bar{display:none!important;}table{font-size:0.7rem;}}
+ 
+/* ── Modal ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;}
+.modal-overlay.hidden{display:none;}
+.modal-box{background:#fff;border-radius:6px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.3);}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1.25rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:1;}
+.modal-head h3{font-size:0.85rem;font-weight:700;color:var(--header);letter-spacing:0.03em;}
+.modal-close{background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--muted);padding:0.2rem 0.5rem;line-height:1;}
+.modal-close:hover{color:var(--text);}
+.modal-body{padding:1rem 1.25rem;}
+.modal-foot{padding:0.75rem 1.25rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:0.6rem;background:#fafafa;}
+ 
+/* ── Staff Links ── */
+.doctor-link-row{display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0;border-bottom:1px solid var(--border);}
+.doctor-link-row:last-child{border-bottom:none;}
+.dlr-name{font-size:0.78rem;font-weight:600;min-width:130px;color:var(--header);}
+.dlr-url{font-size:0.62rem;color:#555;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:monospace;background:#f5f5f5;padding:0.25rem 0.5rem;border-radius:3px;border:1px solid var(--border);}
+.copy-btn{border:1px solid var(--border-dark);background:#fff;font-size:0.68rem;padding:0.28rem 0.7rem;cursor:pointer;border-radius:3px;white-space:nowrap;font-family:var(--font);}
+.copy-btn:hover{background:#eee;}
+.copy-btn.copied{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32;}
+ 
+/* ── Auto-fill preview ── */
+.stats-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:0.85rem;}
+.stat-chip{background:#e8eaf6;color:#283593;border:1px solid #c5cae9;border-radius:4px;font-size:0.68rem;padding:0.25rem 0.65rem;}
+.stat-chip strong{color:var(--header);}
+.conflict-box{background:#fce4ec;border:1px solid var(--leave-b);border-radius:4px;padding:0.65rem 0.9rem;margin-bottom:0.75rem;font-size:0.72rem;color:var(--leave-text);}
+.conflict-box h4{font-size:0.73rem;margin-bottom:0.35rem;font-weight:700;}
+.preview-table{width:100%;border-collapse:collapse;font-size:0.72rem;}
+.preview-table th{background:var(--header);color:#fff;padding:0.4rem 0.6rem;text-align:left;font-size:0.68rem;font-weight:600;letter-spacing:0.04em;}
+.preview-table td{border:1px solid var(--border);padding:0.3rem 0.55rem;}
+.preview-table tr:nth-child(even) td{background:#fafafa;}
+.preview-conflict td{background:#fce4ec!important;}
+.preview-full-cell{color:#1565c0;font-weight:700;}
+.conflict-pill{display:inline-block;background:#c62828;color:#fff;font-size:0.58rem;border-radius:3px;padding:1px 5px;margin-left:3px;vertical-align:middle;}
+.dist-grid{display:flex;flex-wrap:wrap;gap:5px;margin-top:0.5rem;}
+.dist-chip{font-size:0.65rem;background:#f5f5f5;border:1px solid var(--border);border-radius:3px;padding:0.2rem 0.55rem;color:var(--text);}
+.dist-chip b{color:var(--header);}
+ 
+/* ── Doctor Portal ── */
+#adminView{display:block;}
+#adminView.hidden{display:none;}
+#portalView{display:none;max-width:480px;margin:0 auto;}
+#portalView.active{display:block;}
+.portal-header{text-align:center;background:var(--header);color:#fff;border-radius:6px;padding:1.5rem 1rem;margin-bottom:1.25rem;}
+.ph-hospital{font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;opacity:0.7;margin-bottom:0.4rem;}
+.ph-name{font-size:1.2rem;font-weight:700;margin-bottom:0.3rem;}
+.ph-sub{font-size:0.72rem;opacity:0.8;}
+.portal-card{background:#fff;border:1px solid var(--border);border-radius:6px;padding:1rem;margin-bottom:1rem;}
+.portal-month-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.85rem;}
+.portal-month-nav button{border:1px solid var(--border-dark);background:#fff;padding:0.35rem 0.8rem;border-radius:3px;cursor:pointer;font-size:0.75rem;font-family:var(--font);}
+.portal-month-nav button:hover{background:#eee;}
+.pm-label{font-size:0.85rem;font-weight:700;color:var(--header);}
+.portal-legend{display:flex;gap:1.25rem;justify-content:center;margin-bottom:0.75rem;}
+.portal-legend-item{display:flex;align-items:center;gap:5px;font-size:0.68rem;color:var(--muted);}
+.pl-box{width:11px;height:11px;border-radius:2px;border:1px solid;}
+.portal-status{font-size:0.7rem;text-align:center;color:var(--muted);min-height:18px;margin-bottom:0.5rem;transition:color 0.2s;}
+.portal-status.saving{color:#e65100;}
+.portal-status.saved{color:#2e7d32;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.cal-head{font-size:0.6rem;font-weight:700;text-align:center;color:var(--muted);padding:0.3rem 0;text-transform:uppercase;}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:5px;font-size:0.78rem;cursor:pointer;border:1.5px solid transparent;transition:all 0.1s;user-select:none;font-family:var(--font);}
+.cal-day:hover:not(.cal-empty):not(.cal-past){filter:brightness(0.9);}
+.cal-empty{cursor:default;}
+.cal-past{opacity:0.3;cursor:not-allowed;pointer-events:none;}
+.cal-avail{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32;}
+.cal-unavail{background:#fce4ec;border-color:#f48fb1;color:#c62828;font-weight:700;}
+.cal-today-ring{box-shadow:0 0 0 2.5px var(--header);}
+.cal-sunday.cal-avail{color:#e65100;}
+.portal-summary-card{font-size:0.72rem;color:var(--muted);text-align:center;padding:0.6rem;}
+.unavail-list{margin-top:0.5rem;display:flex;flex-wrap:wrap;gap:4px;justify-content:center;}
+.unavail-tag{background:var(--leave-bg);color:var(--leave-text);border:1px solid var(--leave-b);border-radius:3px;font-size:0.66rem;padding:2px 8px;}
+.portal-note{font-size:0.67rem;color:var(--muted);text-align:center;padding:0.5rem;font-style:italic;}
 </style>
 </head>
 <body>
  
-<div id="loader">
-  <span>Loading roster...</span>
-  <span id="loaderMsg"></span>
-</div>
+<div id="loader"><span>Loading...</span><span id="loaderMsg"></span></div>
 <div id="toast"></div>
+ 
+<!-- ═══════════ ADMIN VIEW ═══════════ -->
+<div id="adminView">
+ 
 <div id="dblog"><strong>⚠ Database Error</strong><pre id="dblogtext"></pre></div>
  
 <div class="hospital-header">
@@ -146,24 +190,11 @@ input.note-input:focus{background:#fffde7;}
   <h3 id="rosterTitle"></h3>
 </div>
  
-<!-- Summary bar -->
-<div class="summary-bar" id="summaryBar">
-  <div class="summary-item">
-    <div class="s-val" id="sumTotal">—</div>
-    <div class="s-lbl">Total Staff</div>
-  </div>
-  <div class="summary-item on-duty">
-    <div class="s-val" id="sumOnDuty">—</div>
-    <div class="s-lbl">On Duty Today</div>
-  </div>
-  <div class="summary-item full">
-    <div class="s-val" id="sumFull">—</div>
-    <div class="s-lbl">Full Duty Today</div>
-  </div>
-  <div class="summary-item pdo">
-    <div class="s-val" id="sumPdo">—</div>
-    <div class="s-lbl">PDO Today</div>
-  </div>
+<div class="summary-bar">
+  <div class="summary-item"><div class="s-val" id="sumTotal">—</div><div class="s-lbl">Total Staff</div></div>
+  <div class="summary-item on-duty"><div class="s-val" id="sumOnDuty">—</div><div class="s-lbl">On Duty Today</div></div>
+  <div class="summary-item full"><div class="s-val" id="sumFull">—</div><div class="s-lbl">Full Duty Today</div></div>
+  <div class="summary-item pdo"><div class="s-val" id="sumPdo">—</div><div class="s-lbl">PDO Today</div></div>
 </div>
  
 <div class="doctor-chips" id="doctorChips"></div>
@@ -179,7 +210,9 @@ input.note-input:focus{background:#fffde7;}
     <button onclick="addDoctor()">+ Add</button>
   </div>
   <button class="import-btn" onclick="importMarch2026()">&#8659; Import March 2026</button>
-  <button class="icon-btn" onclick="window.print()">&#128438; Print</button>
+  <button class="links-btn"    onclick="openStaffLinks()">📅 Staff Links</button>
+  <button class="autofill-btn" onclick="openAutoFill()">⚡ Auto-fill</button>
+  <button class="icon-btn"     onclick="window.print()">&#128438; Print</button>
   <span style="font-size:0.68rem;color:var(--muted);margin-left:auto;display:flex;align-items:center">
     <span class="status-dot" id="dbDot"></span>
     <span id="dbStatus">Connecting...</span>
@@ -187,10 +220,7 @@ input.note-input:focus{background:#fffde7;}
 </div>
  
 <div class="grid-wrap">
-  <table>
-    <thead id="tableHead"></thead>
-    <tbody id="tableBody"></tbody>
-  </table>
+  <table><thead id="tableHead"></thead><tbody id="tableBody"></tbody></table>
 </div>
  
 <div class="footer-note" style="display:flex;justify-content:space-between;align-items:flex-end;padding:0.75rem 1rem;">
@@ -212,27 +242,108 @@ input.note-input:focus{background:#fffde7;}
   <div class="legend-item"><div class="legend-box" style="background:var(--pdo-bg);border-color:var(--pdo-b)"></div>PDO (Post Duty Off — next day after Full)</div>
 </div>
  
+</div><!-- /adminView -->
+ 
+<!-- ═══════════ DOCTOR PORTAL VIEW ═══════════ -->
+<div id="portalView">
+  <div class="portal-header">
+    <div class="ph-hospital">ACS Medical College &amp; Hospital · Dept. of OBG</div>
+    <div class="ph-name" id="portalDoctorName">—</div>
+    <div class="ph-sub">Tap a date to mark yourself <strong>unavailable</strong> — tap again to undo</div>
+  </div>
+  <div class="portal-card">
+    <div class="portal-month-nav">
+      <button onclick="portalChangeMonth(-1)">&#8592;</button>
+      <div class="pm-label" id="portalMonthLabel"></div>
+      <button onclick="portalChangeMonth(1)">&#8594;</button>
+    </div>
+    <div class="portal-legend">
+      <div class="portal-legend-item"><div class="pl-box" style="background:var(--reg-bg);border-color:var(--reg-b)"></div>Available</div>
+      <div class="portal-legend-item"><div class="pl-box" style="background:var(--leave-bg);border-color:var(--leave-b)"></div>Unavailable</div>
+    </div>
+    <div class="portal-status" id="portalStatus"></div>
+    <div class="cal-grid" id="portalCalGrid"></div>
+  </div>
+  <div class="portal-card">
+    <div class="portal-summary-card">
+      <div id="portalSummaryText">Loading…</div>
+      <div class="unavail-list" id="portalUnavailList"></div>
+    </div>
+  </div>
+  <div class="portal-note">Changes save instantly. Close this tab when you're done.</div>
+</div>
+ 
+<!-- ═══════════ MODALS ═══════════ -->
+ 
+<!-- Staff Links -->
+<div id="staffLinksModal" class="modal-overlay hidden">
+  <div class="modal-box" style="max-width:580px;">
+    <div class="modal-head">
+      <h3>📅 Staff Availability Links</h3>
+      <button class="modal-close" onclick="closeModal('staffLinksModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:0.72rem;color:var(--muted);margin-bottom:0.85rem;">
+        Share each link with the respective doctor. They can tap dates to mark when they're <strong>unavailable</strong>.
+        This data feeds into <strong>⚡ Auto-fill</strong> to build a clash-free schedule.
+      </p>
+      <div id="staffLinksBody"></div>
+    </div>
+  </div>
+</div>
+ 
+<!-- Auto-fill Preview -->
+<div id="autoFillModal" class="modal-overlay hidden">
+  <div class="modal-box" style="max-width:740px;">
+    <div class="modal-head">
+      <h3>⚡ Auto-fill — <span id="autoFillMonthLabel"></span></h3>
+      <button class="modal-close" onclick="closeModal('autoFillModal')">✕</button>
+    </div>
+    <div class="modal-body" id="autoFillBody">
+      <div style="text-align:center;padding:2rem;color:var(--muted);font-size:0.8rem;">Computing schedule…</div>
+    </div>
+    <div class="modal-foot">
+      <button class="icon-btn" onclick="closeModal('autoFillModal')">Cancel</button>
+      <button id="applyFillBtn" class="autofill-btn" onclick="applyAutoFill()" disabled>⚡ Apply to Roster</button>
+    </div>
+  </div>
+</div>
+ 
 <script>
+/*
+  ─────────────────────────────────────────────────────────────
+  NEW SUPABASE TABLE — run this SQL once in your Supabase editor:
+ 
+  CREATE TABLE public.unavailability (
+    id           bigserial PRIMARY KEY,
+    doctor_name  text NOT NULL,
+    date         date NOT NULL,
+    created_at   timestamptz DEFAULT now(),
+    UNIQUE(doctor_name, date)
+  );
+  ALTER TABLE public.unavailability ENABLE ROW LEVEL SECURITY;
+  CREATE POLICY "Public access" ON public.unavailability
+    FOR ALL USING (true) WITH CHECK (true);
+  ─────────────────────────────────────────────────────────────
+*/
+ 
 const BASE = 'https://zmjfzhpypaiczaricoxm.supabase.co/rest/v1';
 const KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptamZ6aHB5cGFpY3phcmljb3htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NDU3MTQsImV4cCI6MjA4OTIyMTcxNH0.Q6HtgDA1wm3_FjmUbM_DdBWKIe3zHwvkn-egOu1hXtE';
 const HDR  = {
-  'apikey': KEY,
-  'Authorization': 'Bearer ' + KEY,
-  'Content-Type': 'application/json',
-  'Prefer': 'return=representation',
-  'Accept-Profile': 'public',
-  'Content-Profile': 'public'
+  'apikey':KEY,'Authorization':'Bearer '+KEY,
+  'Content-Type':'application/json','Prefer':'return=representation',
+  'Accept-Profile':'public','Content-Profile':'public'
 };
  
 async function api(method, table, params='', body=null) {
-  const opts = { method, headers: { ...HDR } };
+  const opts = { method, headers:{...HDR} };
   if (body) opts.body = JSON.stringify(body);
-  if (method === 'POST')  opts.headers['Prefer'] = 'return=representation';
-  if (method === 'PATCH') opts.headers['Prefer'] = 'return=representation';
-  const res  = await fetch(`${BASE}/${table}${params ? '?'+params : ''}`, opts);
+  if (method==='POST')  opts.headers['Prefer']='return=representation';
+  if (method==='PATCH') opts.headers['Prefer']='return=representation';
+  const res  = await fetch(`${BASE}/${table}${params?'?'+params:''}`, opts);
   const text = await res.text();
   const data = text ? JSON.parse(text) : null;
-  if (!res.ok) throw data || { message: res.statusText, status: res.status };
+  if (!res.ok) throw data||{message:res.statusText,status:res.status};
   return data;
 }
  
@@ -241,158 +352,145 @@ const SHIFT_LABELS = {'—':'—','REG':'Regular','FULL':'Full Day','LEAVE':'Lea
 const MONTHS       = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const DAYS_SHORT   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
  
-let doctors   = [];
-let dutiesMap = {}; // includes prev month's last day for PDO calc on day 1
-let notesMap  = {};
+let doctors          = [];
+let dutiesMap        = {};
+let notesMap         = {};
+let unavailabilityMap = {}; // { 'YYYY-MM-DD': Set([doctor_name,...]) }
  
 const now = new Date();
 let curYear  = now.getFullYear();
 let curMonth = now.getMonth();
  
-// ── Helpers ───────────────────────────────────────────────────
+let pendingFillResult = null;
+ 
+// ── Helpers ──────────────────────────────────────────────────
 function toast(msg, err=false) {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.style.background = err ? '#b71c1c' : '#1a2540';
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2800);
+  setTimeout(()=>el.classList.remove('show'), 2800);
 }
 function showError(ctx, err) {
-  const msg = err?.message || err?.details || err?.error || JSON.stringify(err);
+  const msg = err?.message||err?.details||err?.error||JSON.stringify(err);
   document.getElementById('dblogtext').textContent =
     'Context : '+ctx+'\nMessage : '+msg+
-    (err?.code ? '\nCode    : '+err.code : '')+
-    (err?.hint ? '\nHint    : '+err.hint : '');
+    (err?.code?'\nCode    : '+err.code:'')+
+    (err?.hint?'\nHint    : '+err.hint:'');
   document.getElementById('dblog').classList.add('visible');
-  document.getElementById('dbDot').className = 'status-dot offline';
-  document.getElementById('dbStatus').textContent = 'DB Error';
+  document.getElementById('dbDot').className='status-dot offline';
+  document.getElementById('dbStatus').textContent='DB Error';
 }
 function clearError() {
   document.getElementById('dblog').classList.remove('visible');
-  document.getElementById('dbDot').className = 'status-dot';
-  document.getElementById('dbStatus').textContent = 'Connected';
+  document.getElementById('dbDot').className='status-dot';
+  document.getElementById('dbStatus').textContent='Connected';
 }
 function loader(v, msg='') {
-  document.getElementById('loader').classList.toggle('hidden', !v);
-  document.getElementById('loaderMsg').textContent = msg;
+  document.getElementById('loader').classList.toggle('hidden',!v);
+  document.getElementById('loaderMsg').textContent=msg;
 }
-function fmtDate(y, m, d) {
+function fmtDate(y,m,d){
   return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 }
+function prevDate(ds){const d=new Date(ds);d.setDate(d.getDate()-1);return d.toISOString().slice(0,10);}
+function nextDate(ds){const d=new Date(ds);d.setDate(d.getDate()+1);return d.toISOString().slice(0,10);}
+function closeModal(id){document.getElementById(id).classList.add('hidden');}
+function esc(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
  
-// ── PDO calculation ───────────────────────────────────────────
-// Returns array of doctor names who are on PDO for a given date
-// Rule: if doctor had FULL duty on the previous day → PDO today
+// ── PDO ──────────────────────────────────────────────────────
 function getPdoForDate(ds) {
   const prev = prevDate(ds);
   const pdoNames = [];
-  // Check both slots of previous day
-  ['s1','s2'].forEach(slot => {
+  ['s1','s2'].forEach(slot=>{
     const d = dutiesMap[prev+'_'+slot];
-    if (d && d.shift_type === 'FULL' && d.doctor_name) {
-      if (!pdoNames.includes(d.doctor_name)) pdoNames.push(d.doctor_name);
-    }
+    if (d && d.shift_type==='FULL' && d.doctor_name && !pdoNames.includes(d.doctor_name))
+      pdoNames.push(d.doctor_name);
   });
   return pdoNames;
 }
  
-function prevDate(ds) {
-  const d = new Date(ds);
-  d.setDate(d.getDate() - 1);
-  return d.toISOString().slice(0,10);
-}
- 
-// ── Data loaders ──────────────────────────────────────────────
+// ── Data loaders ─────────────────────────────────────────────
 async function loadDoctors() {
   try {
     const data = await api('GET','doctors','select=name&order=created_at.asc');
-    doctors = data.map(d => d.name);
+    doctors = data.map(d=>d.name);
     clearError();
-  } catch(e) { showError('Loading doctors', e); }
+  } catch(e){showError('Loading doctors',e);}
+}
+ 
+async function loadUnavailabilityRaw(from, to) {
+  try {
+    return await api('GET','unavailability',`select=doctor_name,date&date=gte.${from}&date=lte.${to}&order=date.asc`);
+  } catch(e) {
+    // Table may not exist yet — fail silently, show hint in console
+    console.warn('unavailability table not found. Create it in Supabase SQL editor (see comment in script).',e);
+    return [];
+  }
 }
  
 async function loadMonthData() {
-  const y = curYear, m = curMonth;
-  const days = new Date(y, m+1, 0).getDate();
- 
-  // Also fetch last day of PREVIOUS month for PDO calc on day 1
-  const prevMonthDate = new Date(y, m, 0); // last day of prev month
-  const prevY = prevMonthDate.getFullYear();
-  const prevM = prevMonthDate.getMonth();
-  const prevD = prevMonthDate.getDate();
-  const prevDs = fmtDate(prevY, prevM, prevD);
- 
-  const from = fmtDate(y, m, 1);
-  const to   = fmtDate(y, m, days);
+  const y=curYear, m=curMonth;
+  const days = new Date(y,m+1,0).getDate();
+  const prevMD = new Date(y,m,0);
+  const prevDs = fmtDate(prevMD.getFullYear(), prevMD.getMonth(), prevMD.getDate());
+  const from   = fmtDate(y,m,1);
+  const to     = fmtDate(y,m,days);
  
   try {
-    const [dr, nr, drPrev] = await Promise.all([
+    const [dr,nr,drPrev,ur] = await Promise.all([
       api('GET','duties',`select=date,slot,doctor_name,shift_type&date=gte.${from}&date=lte.${to}`),
       api('GET','notes', `select=date,note&date=gte.${from}&date=lte.${to}`),
-      api('GET','duties',`select=date,slot,doctor_name,shift_type&date=eq.${prevDs}`)
+      api('GET','duties',`select=date,slot,doctor_name,shift_type&date=eq.${prevDs}`),
+      loadUnavailabilityRaw(from, to)
     ]);
  
     dutiesMap = {};
-    // Load prev month last day
-    drPrev.forEach(r => {
-      dutiesMap[r.date+'_'+r.slot] = { doctor_name: r.doctor_name||'', shift_type: r.shift_type||'—' };
-    });
-    // Load current month
-    dr.forEach(r => {
-      dutiesMap[r.date+'_'+r.slot] = { doctor_name: r.doctor_name||'', shift_type: r.shift_type||'—' };
-    });
+    drPrev.forEach(r=>{dutiesMap[r.date+'_'+r.slot]={doctor_name:r.doctor_name||'',shift_type:r.shift_type||'—'};});
+    dr.forEach(r=>{dutiesMap[r.date+'_'+r.slot]={doctor_name:r.doctor_name||'',shift_type:r.shift_type||'—'};});
  
     notesMap = {};
-    nr.forEach(r => { notesMap[r.date] = r.note; });
+    nr.forEach(r=>{notesMap[r.date]=r.note;});
+ 
+    unavailabilityMap = {};
+    ur.forEach(r=>{
+      if (!unavailabilityMap[r.date]) unavailabilityMap[r.date]=new Set();
+      unavailabilityMap[r.date].add(r.doctor_name);
+    });
+ 
     clearError();
-  } catch(e) { showError('Loading month data', e); }
+  } catch(e){showError('Loading month data',e);}
 }
  
-// ── Summary bar ───────────────────────────────────────────────
+// ── Summary ───────────────────────────────────────────────────
 function updateSummary() {
   const todayStr = new Date().toISOString().slice(0,10);
-  const total = doctors.length;
- 
-  // Count on duty today (any slot assigned today)
-  const todayDoctors = new Set();
-  ['s1','s2'].forEach(slot => {
-    const d = dutiesMap[todayStr+'_'+slot];
-    if (d && d.doctor_name) todayDoctors.add(d.doctor_name);
+  const todayDocs=new Set(), fullToday=new Set();
+  ['s1','s2'].forEach(slot=>{
+    const d=dutiesMap[todayStr+'_'+slot];
+    if (d && d.doctor_name) todayDocs.add(d.doctor_name);
+    if (d && d.shift_type==='FULL' && d.doctor_name) fullToday.add(d.doctor_name);
   });
- 
-  // Full duty today
-  const fullToday = new Set();
-  ['s1','s2'].forEach(slot => {
-    const d = dutiesMap[todayStr+'_'+slot];
-    if (d && d.shift_type === 'FULL' && d.doctor_name) fullToday.add(d.doctor_name);
-  });
- 
-  // PDO today
-  const pdoToday = getPdoForDate(todayStr);
- 
-  document.getElementById('sumTotal').textContent   = total;
-  document.getElementById('sumOnDuty').textContent  = todayDoctors.size || '0';
-  document.getElementById('sumFull').textContent    = fullToday.size || '0';
-  document.getElementById('sumPdo').textContent     = pdoToday.length || '0';
+  const pdoToday=getPdoForDate(todayStr);
+  document.getElementById('sumTotal').textContent   = doctors.length;
+  document.getElementById('sumOnDuty').textContent  = todayDocs.size||'0';
+  document.getElementById('sumFull').textContent    = fullToday.size||'0';
+  document.getElementById('sumPdo').textContent     = pdoToday.length||'0';
 }
  
-// ── Mutations ─────────────────────────────────────────────────
+// ── Doctor CRUD ───────────────────────────────────────────────
 async function addDoctor() {
-  const inp = document.getElementById('docInput');
-  let name = inp.value.trim();
-  if (!name) { inp.focus(); return; }
-  if (!name.toLowerCase().startsWith('dr.')) name = 'Dr.' + name;
-  if (doctors.includes(name)) { toast('Already exists'); inp.focus(); return; }
+  const inp=document.getElementById('docInput');
+  let name=inp.value.trim();
+  if (!name){inp.focus();return;}
+  if (!name.toLowerCase().startsWith('dr.')) name='Dr.'+name;
+  if (doctors.includes(name)){toast('Already exists');inp.focus();return;}
   try {
-    await api('POST','doctors','',{ name });
-    doctors.push(name);
-    inp.value = '';
-    clearError();
-    toast(name+' added ✓');
-    renderChips();
-    updateSummary();
-    render();
-  } catch(e) { showError('Adding doctor: '+name, e); toast('Failed to add', true); }
+    await api('POST','doctors','',{name});
+    doctors.push(name); inp.value='';
+    clearError(); toast(name+' added ✓');
+    renderChips(); updateSummary(); render();
+  } catch(e){showError('Adding doctor: '+name,e);toast('Failed to add',true);}
   inp.focus();
 }
  
@@ -400,98 +498,384 @@ async function removeDoctor(name) {
   if (!confirm('Remove '+name+'?')) return;
   try {
     await api('DELETE','doctors','name=eq.'+encodeURIComponent(name));
-    doctors = doctors.filter(d => d !== name);
-    clearError();
-    toast(name+' removed');
-    renderChips();
-    updateSummary();
-    render();
-  } catch(e) { showError('Removing doctor', e); toast('Remove failed', true); }
+    doctors=doctors.filter(d=>d!==name);
+    clearError(); toast(name+' removed');
+    renderChips(); updateSummary(); render();
+  } catch(e){showError('Removing doctor',e);toast('Remove failed',true);}
 }
  
-async function saveDuty(date, slot, doctor_name, shift_type) {
+// ── Duty/Note save ────────────────────────────────────────────
+async function saveDuty(date,slot,doctor_name,shift_type) {
   try {
-    if (!doctor_name && (!shift_type || shift_type==='—')) {
+    if (!doctor_name && (!shift_type||shift_type==='—')) {
       await api('DELETE','duties',`date=eq.${date}&slot=eq.${slot}`);
     } else {
-      const ex = await api('GET','duties',`date=eq.${date}&slot=eq.${slot}&select=id`);
-      if (ex && ex.length) await api('PATCH','duties',`date=eq.${date}&slot=eq.${slot}`,{ doctor_name:doctor_name||null, shift_type:shift_type||'—' });
-      else                  await api('POST','duties','',{ date, slot, doctor_name:doctor_name||null, shift_type:shift_type||'—' });
+      const ex=await api('GET','duties',`date=eq.${date}&slot=eq.${slot}&select=id`);
+      ex&&ex.length
+        ? await api('PATCH','duties',`date=eq.${date}&slot=eq.${slot}`,{doctor_name:doctor_name||null,shift_type:shift_type||'—'})
+        : await api('POST','duties','',{date,slot,doctor_name:doctor_name||null,shift_type:shift_type||'—'});
     }
-  } catch(e) { showError('Saving duty '+date+' '+slot, e); }
+  } catch(e){showError('Saving duty '+date+' '+slot,e);}
 }
  
-async function saveNote(date, note) {
+async function saveNote(date,note) {
   try {
-    if (!note) { await api('DELETE','notes','date=eq.'+date); return; }
-    const ex = await api('GET','notes','date=eq.'+date+'&select=id');
-    if (ex && ex.length) await api('PATCH','notes','date=eq.'+date,{ note });
-    else                  await api('POST','notes','',{ date, note });
-  } catch(e) { showError('Saving note '+date, e); }
+    if (!note){await api('DELETE','notes','date=eq.'+date);return;}
+    const ex=await api('GET','notes','date=eq.'+date+'&select=id');
+    ex&&ex.length
+      ? await api('PATCH','notes','date=eq.'+date,{note})
+      : await api('POST','notes','',{date,note});
+  } catch(e){showError('Saving note '+date,e);}
 }
  
 // ── Handlers ──────────────────────────────────────────────────
-function handleDocChange(sel, date, slot) {
-  const key = date+'_'+slot;
-  if (!dutiesMap[key]) dutiesMap[key] = { doctor_name:'', shift_type:'—' };
-  dutiesMap[key].doctor_name = sel.value;
-  saveDuty(date, slot, sel.value, dutiesMap[key].shift_type);
-  refreshPdoRow(date);
-  updateSummary();
+function handleDocChange(sel,date,slot) {
+  const key=date+'_'+slot;
+  if (!dutiesMap[key]) dutiesMap[key]={doctor_name:'',shift_type:'—'};
+  dutiesMap[key].doctor_name=sel.value;
+  saveDuty(date,slot,sel.value,dutiesMap[key].shift_type);
+  refreshPdoRow(date); updateSummary();
 }
- 
-function handleShiftChange(sel, date, slot) {
-  const val = sel.value;
-  sel.className = 'shift-select'+(val==='—' ? '' : ' s-'+val);
-  const key = date+'_'+slot;
-  if (!dutiesMap[key]) dutiesMap[key] = { doctor_name:'', shift_type:'—' };
-  dutiesMap[key].shift_type = val;
-  saveDuty(date, slot, dutiesMap[key].doctor_name, val);
-  // Update bold/blue on current row
-  const row = sel.closest('tr');
+function handleShiftChange(sel,date,slot) {
+  const val=sel.value;
+  sel.className='shift-select'+(val==='—'?'':' s-'+val);
+  const key=date+'_'+slot;
+  if (!dutiesMap[key]) dutiesMap[key]={doctor_name:'',shift_type:'—'};
+  dutiesMap[key].shift_type=val;
+  saveDuty(date,slot,dutiesMap[key].doctor_name,val);
+  const row=sel.closest('tr');
   if (row) {
-    const s1 = dutiesMap[date+'_s1']?.shift_type;
-    const s2 = dutiesMap[date+'_s2']?.shift_type;
-    row.classList.toggle('has-full', s1==='FULL' || s2==='FULL');
+    const s1=dutiesMap[date+'_s1']?.shift_type;
+    const s2=dutiesMap[date+'_s2']?.shift_type;
+    row.classList.toggle('has-full',s1==='FULL'||s2==='FULL');
   }
-  // Refresh PDO on next day's row
-  const nextDs = nextDate(date);
-  refreshPdoRow(nextDs);
-  updateSummary();
+  refreshPdoRow(nextDate(date)); updateSummary();
 }
- 
-function nextDate(ds) {
-  const d = new Date(ds);
-  d.setDate(d.getDate()+1);
-  return d.toISOString().slice(0,10);
-}
- 
-// Refresh just the PDO cell of a specific date row (no full re-render)
 function refreshPdoRow(ds) {
-  const row = document.querySelector(`tr[data-date="${ds}"]`);
+  const row=document.querySelector(`tr[data-date="${ds}"]`);
   if (!row) return;
-  const pdoCell = row.querySelector('.pdo-cell');
-  if (!pdoCell) return;
-  pdoCell.innerHTML = buildPdoHtml(ds);
+  const cell=row.querySelector('.pdo-cell');
+  if (cell) cell.innerHTML=buildPdoHtml(ds);
 }
- 
 function buildPdoHtml(ds) {
-  const names = getPdoForDate(ds);
+  const names=getPdoForDate(ds);
   if (!names.length) return '<span class="pdo-empty">—</span>';
-  return names.map(n =>
-    `<span class="pdo-badge"><span class="pdo-count">P</span>${n.replace('Dr.','Dr. ')}</span>`
-  ).join('');
+  return names.map(n=>`<span class="pdo-badge"><span class="pdo-count">P</span>${n.replace('Dr.','Dr. ')}</span>`).join('');
 }
- 
-let noteTimers = {};
-function handleNoteChange(inp, date) {
-  notesMap[date] = inp.value;
+let noteTimers={};
+function handleNoteChange(inp,date) {
+  notesMap[date]=inp.value;
   clearTimeout(noteTimers[date]);
-  noteTimers[date] = setTimeout(() => saveNote(date, inp.value), 800);
+  noteTimers[date]=setTimeout(()=>saveNote(date,inp.value),800);
 }
  
-// ── Import March 2026 ─────────────────────────────────────────
-const MARCH_DATA = [
+// ── Month change ──────────────────────────────────────────────
+function changeMonth(dir) {
+  curMonth+=dir;
+  if (curMonth>11){curMonth=0;curYear++;}
+  if (curMonth<0) {curMonth=11;curYear--;}
+  loader(true,'');
+  loadMonthData().then(()=>{loader(false);updateSummary();render();});
+}
+ 
+// ── Render ────────────────────────────────────────────────────
+function renderChips() {
+  const el=document.getElementById('doctorChips');
+  el.innerHTML=doctors.length
+    ? doctors.map(d=>`<div class="chip">${d}<span class="rm" onclick="removeDoctor('${esc(d)}')">✕</span></div>`).join('')
+    : '<span style="font-size:0.7rem;color:#aaa">No doctors — add one above</span>';
+}
+ 
+function render() {
+  const y=curYear,m=curMonth;
+  const days=new Date(y,m+1,0).getDate();
+  const todayStr=new Date().toISOString().slice(0,10);
+ 
+  document.getElementById('rosterTitle').textContent=MONTHS[m]+' - '+y+' (Duty Roster)';
+  document.getElementById('monthLabel').textContent=MONTHS[m]+' '+y;
+ 
+  document.getElementById('tableHead').innerHTML=`<tr>
+    <th class="left" style="min-width:70px">Date</th>
+    <th class="left" style="min-width:75px">Day</th>
+    <th style="min-width:220px">Slot 1</th>
+    <th style="min-width:220px">Slot 2</th>
+    <th style="min-width:180px">PDO Staff</th>
+    <th style="min-width:130px">Notes</th>
+  </tr>`;
+ 
+  const docBase='<option value="">— Doctor —</option>'+doctors.map(d=>`<option value="${d}">${d}</option>`).join('');
+  const mkDoc  =v=>v?docBase.replace(`value="${v}"`,`value="${v}" selected`):docBase;
+  const mkShift=v=>SHIFTS.map(s=>`<option value="${s}"${s===v?' selected':''}>${SHIFT_LABELS[s]}</option>`).join('');
+  const sCls   =v=>v&&v!=='—'?' s-'+v:'';
+ 
+  let html='';
+  for (let day=1;day<=days;day++) {
+    const dt =new Date(y,m,day), dow=dt.getDay();
+    const ds =fmtDate(y,m,day);
+    const d1 =dutiesMap[ds+'_s1']||{doctor_name:'',shift_type:'—'};
+    const d2 =dutiesMap[ds+'_s2']||{doctor_name:'',shift_type:'—'};
+    const hasFull=d1.shift_type==='FULL'||d2.shift_type==='FULL';
+    const nt =(notesMap[ds]||'').replace(/"/g,'&quot;');
+    let cls=ds===todayStr?'today-row':dow===0?'sunday':'';
+    if (hasFull) cls+=(cls?' ':'')+'has-full';
+    html+=`<tr class="${cls}" data-date="${ds}">
+      <td class="date-cell">${String(day).padStart(2,'0')}.${String(m+1).padStart(2,'0')}.${String(y).slice(2)}</td>
+      <td class="day-cell">${DAYS_SHORT[dow]}</td>
+      <td class="duty-cell"><div class="duty-wrap">
+        <select class="doc-select" onchange="handleDocChange(this,'${ds}','s1')">${mkDoc(d1.doctor_name)}</select>
+        <select class="shift-select${sCls(d1.shift_type)}" onchange="handleShiftChange(this,'${ds}','s1')">${mkShift(d1.shift_type)}</select>
+      </div></td>
+      <td class="duty-cell"><div class="duty-wrap">
+        <select class="doc-select" onchange="handleDocChange(this,'${ds}','s2')">${mkDoc(d2.doctor_name)}</select>
+        <select class="shift-select${sCls(d2.shift_type)}" onchange="handleShiftChange(this,'${ds}','s2')">${mkShift(d2.shift_type)}</select>
+      </div></td>
+      <td class="pdo-cell">${buildPdoHtml(ds)}</td>
+      <td class="note-cell"><input class="note-input" type="text" placeholder="remarks…" value="${nt}" onchange="handleNoteChange(this,'${ds}')"/></td>
+    </tr>`;
+  }
+  document.getElementById('tableBody').innerHTML=html;
+}
+ 
+// ══════════════════════════════════════════════════════════════
+// STAFF LINKS MODAL
+// ══════════════════════════════════════════════════════════════
+function openStaffLinks() {
+  if (!doctors.length){toast('No doctors added yet');return;}
+  const base=window.location.href.split('?')[0];
+  const monthParam=curMonth+1, yearParam=curYear;
+  const body=document.getElementById('staffLinksBody');
+  body.innerHTML=doctors.map((d,i)=>{
+    const url=`${base}?doctor=${encodeURIComponent(d)}&month=${monthParam}&year=${yearParam}`;
+    return `<div class="doctor-link-row">
+      <div class="dlr-name">${d}</div>
+      <div class="dlr-url" title="${url}">${url}</div>
+      <button class="copy-btn" id="copybtn-${i}" onclick="copyLink(${i},'${url.replace(/'/g,"\\'")}')">Copy</button>
+    </div>`;
+  }).join('');
+  document.getElementById('staffLinksModal').classList.remove('hidden');
+}
+ 
+function copyLink(idx, url) {
+  const done=()=>{
+    const btn=document.getElementById('copybtn-'+idx);
+    btn.textContent='✓ Copied'; btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);
+  };
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(done).catch(()=>fallbackCopy(url,done));
+  } else { fallbackCopy(url,done); }
+}
+function fallbackCopy(url, cb) {
+  const ta=document.createElement('textarea');
+  ta.value=url; ta.style.cssText='position:fixed;opacity:0';
+  document.body.appendChild(ta); ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta); cb();
+}
+ 
+// ══════════════════════════════════════════════════════════════
+// AUTO-FILL
+// ══════════════════════════════════════════════════════════════
+function openAutoFill() {
+  if (!doctors.length){toast('No doctors added yet');return;}
+  pendingFillResult=null;
+  document.getElementById('applyFillBtn').disabled=true;
+  document.getElementById('autoFillMonthLabel').textContent=MONTHS[curMonth]+' '+curYear;
+  document.getElementById('autoFillBody').innerHTML=
+    '<div style="text-align:center;padding:2rem;color:var(--muted);font-size:0.8rem;">Computing schedule…</div>';
+  document.getElementById('autoFillModal').classList.remove('hidden');
+  setTimeout(()=>{
+    const {result,conflicts,fullCount,totalCount}=computeAutoFill();
+    pendingFillResult=result;
+    renderAutoFillPreview(result,conflicts,fullCount,totalCount);
+    document.getElementById('applyFillBtn').disabled=false;
+  },60);
+}
+ 
+function computeAutoFill() {
+  const y=curYear, m=curMonth;
+  const days=new Date(y,m+1,0).getDate();
+ 
+  // FULL duty days: every 4th day — distributed through month
+  const fullDayNums=new Set();
+  for (let d=4; d<=days; d+=4) fullDayNums.add(d);
+ 
+  const result     ={};
+  const fullCount  ={};
+  const totalCount ={};
+  doctors.forEach(d=>{fullCount[d]=0;totalCount[d]=0;});
+ 
+  const conflicts=[];
+ 
+  for (let day=1; day<=days; day++) {
+    const ds    =fmtDate(y,m,day);
+    const prevDs=prevDate(ds);
+ 
+    // PDO: who had FULL yesterday (in this fill run)?
+    const pdoToday=new Set();
+    if (result[prevDs]) {
+      ['s1','s2'].forEach(slot=>{
+        const a=result[prevDs][slot];
+        if (a && a.shift==='FULL') pdoToday.add(a.doctor);
+      });
+    } else if (day===1) {
+      // Check actual prev-month data
+      ['s1','s2'].forEach(slot=>{
+        const d=dutiesMap[prevDs+'_'+slot];
+        if (d && d.shift_type==='FULL' && d.doctor_name) pdoToday.add(d.doctor_name);
+      });
+    }
+ 
+    const unavailToday=unavailabilityMap[ds]||new Set();
+    const isFullDay=fullDayNums.has(day);
+ 
+    // Available = not on PDO AND not marked unavailable
+    let available=doctors.filter(d=>!pdoToday.has(d)&&!unavailToday.has(d));
+ 
+    let conflictMsg=null;
+    if (available.length===0) {
+      conflictMsg='No available doctors — ignoring unavailability to fill slot';
+      // Fallback: ignore unavailability, respect PDO
+      available=doctors.filter(d=>!pdoToday.has(d));
+      if (available.length===0) {
+        conflictMsg='No available doctors (all on PDO) — PDO also ignored to fill slot';
+        available=[...doctors];
+      }
+    } else if (available.length===1) {
+      conflictMsg='Only 1 doctor available for 2 slots';
+    }
+ 
+    let d1,d2,shift;
+    if (isFullDay) {
+      const sorted=[...available].sort((a,b)=>fullCount[a]-fullCount[b]||totalCount[a]-totalCount[b]);
+      d1=sorted[0]; d2=sorted[1]||null; shift='FULL';
+      if (d1) fullCount[d1]++;
+      if (d2) fullCount[d2]++;
+    } else {
+      const sorted=[...available].sort((a,b)=>totalCount[a]-totalCount[b]);
+      d1=sorted[0]; d2=sorted[1]||null; shift='REG';
+    }
+ 
+    result[ds]={
+      s1: d1?{doctor:d1,shift}:null,
+      s2: d2?{doctor:d2,shift}:null,
+      conflict:!!conflictMsg, conflictMsg
+    };
+ 
+    if (d1) totalCount[d1]++;
+    if (d2) totalCount[d2]++;
+    if (conflictMsg) conflicts.push({date:ds,msg:conflictMsg});
+  }
+ 
+  return {result,conflicts,fullCount,totalCount};
+}
+ 
+function renderAutoFillPreview(result, conflicts, fullCount, totalCount) {
+  const y=curYear,m=curMonth;
+  const days=new Date(y,m+1,0).getDate();
+  const fullDays=Object.values(result).filter(r=>r.s1?.shift==='FULL'||r.s2?.shift==='FULL').length;
+  let html='';
+ 
+  // Stats bar
+  html+=`<div class="stats-grid">
+    <div class="stat-chip">👨‍⚕️ <strong>${doctors.length}</strong> doctors</div>
+    <div class="stat-chip">📅 <strong>${days}</strong> days</div>
+    <div class="stat-chip">⚡ <strong>${fullDays}</strong> full-duty days</div>
+    ${conflicts.length?`<div class="stat-chip" style="background:#fce4ec;color:#c62828;border-color:var(--leave-b)">⚠ <strong>${conflicts.length}</strong> warning${conflicts.length>1?'s':''}</div>`:''}
+  </div>`;
+ 
+  // Full duty distribution
+  html+=`<details style="margin-bottom:0.75rem;">
+    <summary style="font-size:0.72rem;font-weight:600;cursor:pointer;color:var(--header);padding:0.3rem 0;user-select:none;">
+      Full Duty Distribution (click to expand)
+    </summary>
+    <div class="dist-grid" style="margin-top:0.5rem;">`;
+  doctors.forEach(d=>{
+    const fc=fullCount[d]||0, tc=totalCount[d]||0;
+    html+=`<div class="dist-chip">${d.replace('Dr.','')} — <b>${fc}</b> full, <b>${tc}</b> total</div>`;
+  });
+  html+=`</div></details>`;
+ 
+  // Conflicts
+  if (conflicts.length) {
+    html+=`<div class="conflict-box"><h4>⚠ Scheduling Warnings — staff assigned anyway</h4>`;
+    conflicts.forEach(c=>{html+=`<div style="margin-top:3px;">• ${c.date}: ${c.msg}</div>`;});
+    html+=`</div>`;
+  }
+ 
+  // Preview table
+  html+=`<table class="preview-table"><thead><tr>
+    <th>Date</th><th>Day</th><th>Slot 1</th><th>Slot 2</th><th>PDO Next Day</th>
+  </tr></thead><tbody>`;
+ 
+  for (let day=1; day<=days; day++) {
+    const ds=fmtDate(y,m,day);
+    const r=result[ds];
+    const dow=DAYS_SHORT[new Date(y,m,day).getDay()];
+ 
+    // Who will be on PDO next day because of today's FULL?
+    const pdoNext=[];
+    if (r?.s1?.shift==='FULL') pdoNext.push(r.s1.doctor);
+    if (r?.s2?.shift==='FULL' && !pdoNext.includes(r.s2.doctor)) pdoNext.push(r.s2.doctor);
+ 
+    const s1txt=r?.s1?`<span class="${r.s1.shift==='FULL'?'preview-full-cell':''}">${r.s1.doctor} (${r.s1.shift})</span>`:'<span style="color:#ccc">—</span>';
+    const s2txt=r?.s2?`<span class="${r.s2.shift==='FULL'?'preview-full-cell':''}">${r.s2.doctor} (${r.s2.shift})</span>`:'<span style="color:#ccc">—</span>';
+    const warn=r?.conflict?`<span class="conflict-pill">⚠</span>`:'';
+ 
+    html+=`<tr class="${r?.conflict?'preview-conflict':''}">
+      <td>${String(day).padStart(2,'0')}.${String(m+1).padStart(2,'0')}.${String(y).slice(2)}${warn}</td>
+      <td>${dow}</td><td>${s1txt}</td><td>${s2txt}</td>
+      <td style="font-size:0.65rem;color:var(--pdo-text)">${pdoNext.map(n=>n.replace('Dr.','')).join(', ')||'—'}</td>
+    </tr>`;
+  }
+  html+=`</tbody></table>`;
+  document.getElementById('autoFillBody').innerHTML=html;
+}
+ 
+async function applyAutoFill() {
+  if (!pendingFillResult) return;
+  const btn=document.getElementById('applyFillBtn');
+  btn.disabled=true; btn.textContent='Saving…';
+  loader(true,'Applying auto-fill…');
+  try {
+    const y=curYear,m=curMonth;
+    const days=new Date(y,m+1,0).getDate();
+    for (let day=1; day<=days; day++) {
+      const ds=fmtDate(y,m,day);
+      const r=pendingFillResult[ds];
+      if (!r) continue;
+      loader(true,`Writing ${ds} (${day}/${days})…`);
+      const saves=[];
+      ['s1','s2'].forEach(slot=>{
+        const a=r[slot];
+        if (a) {
+          saves.push(
+            api('GET','duties',`date=eq.${ds}&slot=eq.${slot}&select=id`).then(ex=>
+              ex.length
+                ? api('PATCH','duties',`date=eq.${ds}&slot=eq.${slot}`,{doctor_name:a.doctor,shift_type:a.shift})
+                : api('POST','duties','',{date:ds,slot,doctor_name:a.doctor,shift_type:a.shift})
+            )
+          );
+          dutiesMap[ds+'_'+slot]={doctor_name:a.doctor,shift_type:a.shift};
+        }
+      });
+      await Promise.all(saves);
+    }
+    loader(false);
+    closeModal('autoFillModal');
+    clearError(); updateSummary(); render();
+    toast('Auto-fill applied ✓');
+  } catch(e) {
+    loader(false);
+    showError('Applying auto-fill',e); toast('Apply failed',true);
+    btn.disabled=false; btn.textContent='⚡ Apply to Roster';
+  }
+}
+ 
+// ══════════════════════════════════════════════════════════════
+// IMPORT MARCH 2026
+// ══════════════════════════════════════════════════════════════
+const MARCH_DATA=[
   ['2026-03-01','Dr.Divya','REG','Dr.Anuthomas','FULL','Thiruverkadu: 3.3.26-Dr.Sharanya'],
   ['2026-03-02','Dr.Ramani','REG','Dr.Abilashini','REG','Thiruverkadu: 10.3.26-Dr.Ganga'],
   ['2026-03-03','Dr.Rathna','REG','Dr.Prathibha','REG','Thiruverkadu: 17.3.26-Dr.Sharanya'],
@@ -524,7 +908,7 @@ const MARCH_DATA = [
   ['2026-03-30','Dr.Rathna','REG','Dr.Prathibha','REG',''],
   ['2026-03-31','Dr.Ganga','FULL','Dr.Anuthomas','REG',''],
 ];
-const MARCH_DOCTORS = ['Dr.Divya','Dr.Ramani','Dr.Rathna','Dr.Varshini','Dr.Sharanya',
+const MARCH_DOCTORS=['Dr.Divya','Dr.Ramani','Dr.Rathna','Dr.Varshini','Dr.Sharanya',
   'Dr.Ramya','Dr.Manju','Dr.Ganga','Dr.Devipriya','Dr.Abilashini',
   'Dr.Prathibha','Dr.Yasmine','Dr.Sandhya','Dr.Anuthomas','Dr.Vinitha'];
  
@@ -534,120 +918,184 @@ async function importMarch2026() {
   try {
     for (const name of MARCH_DOCTORS) {
       if (!doctors.includes(name)) {
-        try { await api('POST','doctors','',{ name }); doctors.push(name); }
-        catch(e) { if (!JSON.stringify(e).includes('23505')) throw e; }
+        try{await api('POST','doctors','',{name});doctors.push(name);}
+        catch(e){if(!JSON.stringify(e).includes('23505'))throw e;}
       }
     }
-    let done = 0;
+    let done=0;
     for (const [date,d1,s1,d2,s2,note] of MARCH_DATA) {
       done++;
       loader(true,`Saving ${date} (${done}/${MARCH_DATA.length})...`);
-      const [ex1,ex2] = await Promise.all([
+      const [ex1,ex2]=await Promise.all([
         api('GET','duties',`date=eq.${date}&slot=eq.s1&select=id`),
         api('GET','duties',`date=eq.${date}&slot=eq.s2&select=id`)
       ]);
       await Promise.all([
-        ex1.length ? api('PATCH','duties',`date=eq.${date}&slot=eq.s1`,{doctor_name:d1,shift_type:s1})
-                   : api('POST','duties','',{date,slot:'s1',doctor_name:d1,shift_type:s1}),
-        ex2.length ? api('PATCH','duties',`date=eq.${date}&slot=eq.s2`,{doctor_name:d2,shift_type:s2})
-                   : api('POST','duties','',{date,slot:'s2',doctor_name:d2,shift_type:s2})
+        ex1.length?api('PATCH','duties',`date=eq.${date}&slot=eq.s1`,{doctor_name:d1,shift_type:s1})
+                  :api('POST','duties','',{date,slot:'s1',doctor_name:d1,shift_type:s1}),
+        ex2.length?api('PATCH','duties',`date=eq.${date}&slot=eq.s2`,{doctor_name:d2,shift_type:s2})
+                  :api('POST','duties','',{date,slot:'s2',doctor_name:d2,shift_type:s2})
       ]);
-      if (note) {
-        const exn = await api('GET','notes','date=eq.'+date+'&select=id');
-        exn.length ? await api('PATCH','notes','date=eq.'+date,{note})
-                   : await api('POST','notes','',{date,note});
+      if (note){
+        const exn=await api('GET','notes','date=eq.'+date+'&select=id');
+        exn.length?await api('PATCH','notes','date=eq.'+date,{note})
+                  :await api('POST','notes','',{date,note});
       }
     }
-    curYear=2026; curMonth=2;
+    curYear=2026;curMonth=2;
     await loadMonthData();
-    loader(false); clearError(); renderChips(); updateSummary(); render();
+    loader(false);clearError();renderChips();updateSummary();render();
     toast('March 2026 imported ✓');
-  } catch(e) { loader(false); showError('Importing March 2026', e); toast('Import failed', true); }
+  } catch(e){loader(false);showError('Importing March 2026',e);toast('Import failed',true);}
 }
  
-// ── Render ────────────────────────────────────────────────────
-function changeMonth(dir) {
-  curMonth += dir;
-  if (curMonth > 11) { curMonth=0; curYear++; }
-  if (curMonth <  0) { curMonth=11; curYear--; }
-  loader(true,'');
-  loadMonthData().then(() => { loader(false); updateSummary(); render(); });
+// ══════════════════════════════════════════════════════════════
+// DOCTOR PORTAL
+// ══════════════════════════════════════════════════════════════
+let portalDoctor   = null;
+let portalYear     = now.getFullYear();
+let portalMonth    = now.getMonth();
+let portalUnavailSet = new Set();
+ 
+async function initPortal(doctorName) {
+  document.getElementById('adminView').classList.add('hidden');
+  document.getElementById('portalView').classList.add('active');
+  document.title = doctorName + ' — Availability';
+ 
+  portalDoctor = doctorName;
+  const p = new URLSearchParams(window.location.search);
+  portalYear  = parseInt(p.get('year')) || now.getFullYear();
+  const rawM  = parseInt(p.get('month'));
+  portalMonth = isNaN(rawM) ? now.getMonth() : rawM - 1; // URL is 1-indexed
+ 
+  document.getElementById('portalDoctorName').textContent = doctorName;
+ 
+  loader(true,'Loading your availability…');
+  await loadPortalData();
+  loader(false);
+  renderPortalCalendar();
+  renderPortalSummary();
 }
  
-function renderChips() {
-  const el = document.getElementById('doctorChips');
-  el.innerHTML = doctors.length
-    ? doctors.map(d=>`<div class="chip">${d}<span class="rm" onclick="removeDoctor('${esc(d)}')">✕</span></div>`).join('')
-    : '<span style="font-size:0.7rem;color:#aaa">No doctors — add one above</span>';
-}
- 
-function esc(s){ return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
- 
-function render() {
-  const y=curYear, m=curMonth;
+async function loadPortalData() {
+  const y=portalYear, m=portalMonth;
   const days=new Date(y,m+1,0).getDate();
-  const todayStr=new Date().toISOString().slice(0,10);
- 
-  document.getElementById('rosterTitle').textContent=MONTHS[m]+' - '+y+' (Duty Roster)';
-  document.getElementById('monthLabel').textContent=MONTHS[m]+' '+y;
- 
-  document.getElementById('tableHead').innerHTML=`<tr>
-    <th class="left" style="min-width:70px">Date</th>
-    <th class="left" style="min-width:75px">Day</th>
-    <th style="min-width:220px">Slot 1</th>
-    <th style="min-width:220px">Slot 2</th>
-    <th style="min-width:180px">PDO Staff</th>
-    <th style="min-width:130px">Notes</th>
-  </tr>`;
- 
-  const docBase='<option value="">— Doctor —</option>'+doctors.map(d=>`<option value="${d}">${d}</option>`).join('');
-  const mkDoc  =v=>v?docBase.replace(`value="${v}"`,`value="${v}" selected`):docBase;
-  const mkShift=v=>SHIFTS.map(s=>`<option value="${s}"${s===v?' selected':''}>${SHIFT_LABELS[s]}</option>`).join('');
-  const sCls   =v=>v&&v!=='—'?' s-'+v:'';
- 
-  let html='';
-  for(let day=1;day<=days;day++){
-    const dt  =new Date(y,m,day);
-    const dow =dt.getDay();
-    const ds  =fmtDate(y,m,day);
-    const d1  =dutiesMap[ds+'_s1']||{doctor_name:'',shift_type:'—'};
-    const d2  =dutiesMap[ds+'_s2']||{doctor_name:'',shift_type:'—'};
-    const hasFull=d1.shift_type==='FULL'||d2.shift_type==='FULL';
-    const nt  =(notesMap[ds]||'').replace(/"/g,'&quot;');
- 
-    let cls=ds===todayStr?'today-row':dow===0?'sunday':'';
-    if(hasFull) cls+=(cls?' ':'')+'has-full';
- 
-    const pdoHtml=buildPdoHtml(ds);
- 
-    html+=`<tr class="${cls}" data-date="${ds}">
-      <td class="date-cell">${String(day).padStart(2,'0')}.${String(m+1).padStart(2,'0')}.${String(y).slice(2)}</td>
-      <td class="day-cell">${DAYS_SHORT[dow]}</td>
-      <td class="duty-cell"><div class="duty-wrap">
-        <select class="doc-select" onchange="handleDocChange(this,'${ds}','s1')">${mkDoc(d1.doctor_name)}</select>
-        <select class="shift-select${sCls(d1.shift_type)}" onchange="handleShiftChange(this,'${ds}','s1')">${mkShift(d1.shift_type)}</select>
-      </div></td>
-      <td class="duty-cell"><div class="duty-wrap">
-        <select class="doc-select" onchange="handleDocChange(this,'${ds}','s2')">${mkDoc(d2.doctor_name)}</select>
-        <select class="shift-select${sCls(d2.shift_type)}" onchange="handleShiftChange(this,'${ds}','s2')">${mkShift(d2.shift_type)}</select>
-      </div></td>
-      <td class="pdo-cell">${pdoHtml}</td>
-      <td class="note-cell"><input class="note-input" type="text" placeholder="remarks…" value="${nt}" onchange="handleNoteChange(this,'${ds}')"/></td>
-    </tr>`;
+  const from=fmtDate(y,m,1), to=fmtDate(y,m,days);
+  try {
+    const data=await api('GET','unavailability',
+      `select=date&doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=gte.${from}&date=lte.${to}`);
+    portalUnavailSet=new Set(data.map(r=>r.date));
+  } catch(e) {
+    console.warn('Could not load unavailability:',e);
+    portalUnavailSet=new Set();
   }
-  document.getElementById('tableBody').innerHTML=html;
 }
  
+function portalChangeMonth(dir) {
+  portalMonth+=dir;
+  if (portalMonth>11){portalMonth=0;portalYear++;}
+  if (portalMonth<0) {portalMonth=11;portalYear--;}
+  loadPortalData().then(()=>{renderPortalCalendar();renderPortalSummary();});
+}
+ 
+function renderPortalCalendar() {
+  const y=portalYear, m=portalMonth;
+  const days=new Date(y,m+1,0).getDate();
+  const firstDow=new Date(y,m,1).getDay();
+  const todayStr=new Date().toISOString().slice(0,10);
+  document.getElementById('portalMonthLabel').textContent=MONTHS[m]+' '+y;
+ 
+  const HEADS=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  let html=HEADS.map(d=>`<div class="cal-head">${d}</div>`).join('');
+  for (let i=0;i<firstDow;i++) html+='<div class="cal-day cal-empty"></div>';
+ 
+  for (let day=1;day<=days;day++) {
+    const ds=fmtDate(y,m,day);
+    const dow=new Date(y,m,day).getDay();
+    const isPast=ds<todayStr;
+    const isToday=ds===todayStr;
+    const isUnavail=portalUnavailSet.has(ds);
+    const isSunday=dow===0;
+    let cls='cal-day';
+    if (isPast)         cls+=' cal-past';
+    else if (isUnavail) cls+=' cal-unavail';
+    else                cls+=' cal-avail';
+    if (isToday)        cls+=' cal-today-ring';
+    if (isSunday && !isUnavail && !isPast) cls+=' cal-sunday';
+    const onclick=isPast?'':` onclick="portalToggle('${ds}')"`;
+    const title=isUnavail?'Click to mark available':'Click to mark unavailable';
+    html+=`<div class="${cls}"${onclick} title="${title}">${day}</div>`;
+  }
+  document.getElementById('portalCalGrid').innerHTML=html;
+}
+ 
+function renderPortalSummary() {
+  const sorted=[...portalUnavailSet].sort();
+  const txt=sorted.length
+    ? `You've marked <strong>${sorted.length}</strong> day${sorted.length>1?'s':''} unavailable this month:`
+    : 'No unavailable dates marked for this month. You\'re fully available!';
+  document.getElementById('portalSummaryText').innerHTML=txt;
+  document.getElementById('portalUnavailList').innerHTML=sorted.map(ds=>{
+    const d=new Date(ds);
+    return `<span class="unavail-tag">${DAYS_SHORT[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()].slice(0,3)}</span>`;
+  }).join('');
+}
+ 
+async function portalToggle(ds) {
+  const statusEl=document.getElementById('portalStatus');
+  statusEl.className='portal-status saving';
+  if (portalUnavailSet.has(ds)) {
+    try {
+      statusEl.textContent='Removing…';
+      await api('DELETE','unavailability',
+        `doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=eq.${ds}`);
+      portalUnavailSet.delete(ds);
+      statusEl.className='portal-status saved';
+      statusEl.textContent='Saved ✓';
+    } catch(e){statusEl.className='portal-status';statusEl.textContent='Error saving';console.error(e);}
+  } else {
+    try {
+      statusEl.textContent='Saving…';
+      const ex=await api('GET','unavailability',
+        `doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=eq.${ds}&select=id`);
+      if (!ex.length)
+        await api('POST','unavailability','',{doctor_name:portalDoctor,date:ds});
+      portalUnavailSet.add(ds);
+      statusEl.className='portal-status saved';
+      statusEl.textContent='Saved ✓';
+    } catch(e){statusEl.className='portal-status';statusEl.textContent='Error saving';console.error(e);}
+  }
+  setTimeout(()=>{statusEl.textContent='';statusEl.className='portal-status';},2000);
+  renderPortalCalendar();
+  renderPortalSummary();
+}
+ 
+// ── Global event listeners ────────────────────────────────────
 document.getElementById('docInput').addEventListener('keydown',e=>{if(e.key==='Enter')addDoctor();});
  
-(async()=>{
-  loader(true,'');
-  await Promise.all([loadDoctors(),loadMonthData()]);
-  loader(false);
-  renderChips();
-  updateSummary();
-  render();
-})();
+// Close modal on ESC or backdrop click
+document.addEventListener('keydown',e=>{
+  if (e.key==='Escape')
+    document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(el=>el.classList.add('hidden'));
+});
+document.querySelectorAll('.modal-overlay').forEach(el=>{
+  el.addEventListener('click',e=>{if(e.target===el)el.classList.add('hidden');});
+});
+ 
+// ── Boot ──────────────────────────────────────────────────────
+const _p=new URLSearchParams(window.location.search);
+const _portalDoc=_p.get('doctor');
+ 
+if (_portalDoc) {
+  initPortal(decodeURIComponent(_portalDoc));
+} else {
+  (async()=>{
+    loader(true,'');
+    await Promise.all([loadDoctors(),loadMonthData()]);
+    loader(false);
+    renderChips(); updateSummary(); render();
+  })();
+}
 </script>
 </body>
 </html>
