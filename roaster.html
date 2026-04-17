@@ -401,9 +401,12 @@ function getScheduledUnit(y,m,day){
 }
 // Returns {s1unit, s2unit} — which unit each slot should pull from
 function getSlotUnits(y,m,day){
-  const su=getScheduledUnit(y,m,day);
-  if(su==='both')return{s1:'unit1',s2:'unit2'};
-  return{s1:su,s2:su};
+  function getSlotUnits(y, m, day) {
+  return {
+    s1: 'unit1',  // Slot 1 always Unit 1
+    s2: 'unit2'   // Slot 2 always Unit 2
+  };
+  }
 }
 function getDoctorUnit(n){return doctorUnits[n]||'unit1';}
 function getUnitDoctors(u){return doctors.filter(d=>getDoctorUnit(d)===u);}
