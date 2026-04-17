@@ -276,7 +276,7 @@ input.note-input:focus{background:#fffde7;}
     <div class="portal-legend">
       <div class="portal-legend-item"><div class="pl-box" style="background:var(--reg-bg);border-color:var(--reg-b)"></div>Available</div>
       <div class="portal-legend-item"><div class="pl-box" style="background:var(--leave-bg);border-color:var(--leave-b)"></div>Unavailable</div>
-      <div class="portal-legend-item"><div class="pl-box" style="background:var(--full-bg);border-color:var(--full-b)"></div>Wanted</div>
+      <div class="portal-legend-item"><div class="pl-box" style="background:#e3f2fd;border-color:#90caf9"></div>Wanted</div>
     </div>
     <div style="display:flex;gap:8px;justify-content:center;margin-bottom:0.6rem;flex-wrap:wrap;">
       <button class="icon-btn" onclick="portalSetMode('unavail')" id="modeUnavailBtn">Mark Unavailable</button>
@@ -844,8 +844,8 @@ function renderPortalCalendar(){
     let cls='cal-day';
     if(isPast)cls+=' cal-past';else if(isUnavail)cls+=' cal-unavail';else if(isWanted)cls+=' cal-wanted';else cls+=' cal-avail';
     if(isToday)cls+=' cal-today-ring';
-    if(dow===0&&!isUnavail&&!isPast)cls+=' cal-sunday';
-    const style=(!isPast&&isMyDay&&!isUnavail)?` style="outline:2px solid ${portalDoctorUnit==='unit1'?'var(--u1-b)':'var(--u2-b)'};outline-offset:-2px"`:'';
+    if(dow===0&&!isUnavail&&!isWanted&&!isPast)cls+=' cal-sunday';
+    const style=(!isPast&&isMyDay&&!isUnavail&&!isWanted)?` style="outline:2px solid ${portalDoctorUnit==='unit1'?'var(--u1-b)':'var(--u2-b)'};outline-offset:-2px"`:'';
     html+=`<div class="${cls}"${isPast?'':` onclick="portalToggle('${ds}')"`}${style}>${day}</div>`;
   }
   document.getElementById('portalCalGrid').innerHTML=html;
