@@ -367,7 +367,7 @@ input.note-input:focus{background:#fffde7;}
   On a Unit2 day: both doctor dropdowns show only Unit2 doctors
   On Sunday:      slot1 shows Unit1 doctors, slot2 shows Unit2 doctors
 */
-const BASE='https://zmjfzhpypaiczaricoxm.supabase.co/rest/v1';
+const BASE='https://zmjfzhpypaiczaricoxm.supabase.co';
 const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptamZ6aHB5cGFpY3phcmljb3htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NDU3MTQsImV4cCI6MjA4OTIyMTcxNH0.Q6HtgDA1wm3_FjmUbM_DdBWKIe3zHwvkn-egOu1hXtE';
 const HDR={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=representation','Accept-Profile':'public','Content-Profile':'public'};
 
@@ -593,14 +593,14 @@ function render(){
   for(let day=1;day<=days;day++){
     const dt=new Date(y,m,day),dow=dt.getDay(),ds=fmtDate(y,m,day);
     const{s1:s1u,s2:s2u}=getSlotUnits(y,m,day);
-    const su=getScheduledUnit(y,m,day);
+    const su = 'both';
     const d1=dutiesMap[ds+'_s1']||{doctor_name:'',shift_type:'—'};
     const d2=dutiesMap[ds+'_s2']||{doctor_name:'',shift_type:'—'};
     const hasFull=d1.shift_type==='FULL'||d2.shift_type==='FULL';
     const nt=(notesMap[ds]||'').replace(/"/g,'&quot;');
 
-    const bCls=su==='both'?'udb-both':su==='unit1'?'udb-u1':'udb-u2';
-    const bTxt=su==='both'?'Both':su==='unit1'?'Unit 1':'Unit 2';
+const bCls = 'udb-both';
+const bTxt = 'Both';
     const badge=`<span class="unit-day-badge ${bCls}">${bTxt}</span>`;
 
     let cls=ds===todayStr?'today-row':dow===0?'sunday':'';
