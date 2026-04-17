@@ -107,6 +107,12 @@ td.pdo-cell{padding:4px 6px;min-width:160px;vertical-align:top;}
 .pdo-badge{display:inline-flex;align-items:center;gap:4px;background:var(--pdo-bg);color:var(--pdo-text);border:1px solid var(--pdo-b);border-radius:3px;font-size:0.68rem;padding:2px 7px;margin:2px 2px;white-space:nowrap;}
 .pdo-count{display:inline-block;background:var(--pdo-text);color:#fff;border-radius:50%;width:16px;height:16px;font-size:0.6rem;font-weight:700;line-height:16px;text-align:center;margin-right:2px;}
 td.note-cell{padding:3px 6px;min-width:140px;}
+td.want-cell{padding:4px 6px;min-width:160px;vertical-align:top;}
+.want-unit-row{display:flex;align-items:flex-start;gap:4px;margin-bottom:3px;flex-wrap:wrap;}
+.want-unit-row:last-child{margin-bottom:0;}
+.want-unit-lbl{font-size:0.55rem;font-weight:700;padding:2px 5px;border-radius:3px;white-space:nowrap;line-height:1.6;border:1px solid;}
+.want-unit-lbl.u1{background:var(--u1-bg);color:var(--u1);border-color:var(--u1-b);}
+.want-unit-lbl.u2{background:var(--u2-bg);color:var(--u2);border-color:var(--u2-b);}
 input.note-input{border:none;background:transparent;font-family:var(--font);font-size:0.72rem;color:var(--text);width:100%;outline:none;padding:0.25rem 0.1rem;}
 input.note-input::placeholder{color:#bbb;}
 input.note-input:focus{background:#fffde7;}
@@ -367,8 +373,8 @@ input.note-input:focus{background:#fffde7;}
   On a Unit2 day: both doctor dropdowns show only Unit2 doctors
   On Sunday:      slot1 shows Unit1 doctors, slot2 shows Unit2 doctors
 */
-const BASE='https://vtjfisiktnuxxbfdtixl.supabase.co';
-const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0amZpc2lrdG51eHhiZmR0aXhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5NzkxNzUsImV4cCI6MjA4ODU1NTE3NX0.0mfmMHkcokY6EReLShv43j0aTxklBKcTo_wUVuCLdyw';
+const BASE='https://zmjfzhpypaiczaricoxm.supabase.co';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptamZ6aHB5cGFpY3phcmljb3htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NDU3MTQsImV4cCI6MjA4OTIyMTcxNH0.Q6HtgDA1wm3_FjmUbM_DdBWKIe3zHwvkn-egOu1hXtE';
 const HDR={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=representation','Accept-Profile':'public','Content-Profile':'public'};
 
 async function api(method,table,params='',body=null){
@@ -401,12 +407,9 @@ function getScheduledUnit(y,m,day){
 }
 // Returns {s1unit, s2unit} — which unit each slot should pull from
 function getSlotUnits(y,m,day){
-  function getSlotUnits(y, m, day) {
-  return {
-    s1: 'unit1',  // Slot 1 always Unit 1
-    s2: 'unit2'   // Slot 2 always Unit 2
-  };
-  }
+  const su=getScheduledUnit(y,m,day);
+  if(su==='both')return{s1:'unit1',s2:'unit2'};
+  return{s1:su,s2:su};
 }
 function getDoctorUnit(n){return doctorUnits[n]||'unit1';}
 function getUnitDoctors(u){return doctors.filter(d=>getDoctorUnit(d)===u);}
@@ -542,7 +545,16 @@ function handleShiftChange(sel,date,slot){
 }
 function refreshPdoRow(ds){const row=document.querySelector(`tr[data-date="${ds}"]`);if(!row)return;const cell=row.querySelector('.pdo-cell');if(cell)cell.innerHTML=buildPdoHtml(ds);}
 function buildPdoHtml(ds){const names=getPdoForDate(ds);if(!names.length)return'<span class="pdo-empty">—</span>';return names.map(n=>`<span class="pdo-badge"><span class="pdo-count">P</span>${n.replace('Dr.','Dr. ')}</span>`).join('');}
-function buildWantHtml(ds){const names=wantDatesMap[ds]?[...wantDatesMap[ds]]:[];if(!names.length)return'<span class="pdo-empty">—</span>';return names.map(n=>`<span class="want-badge"><span class="want-count">W</span>${n.replace('Dr.','Dr. ')}</span>`).join('');}
+function buildWantHtml(ds){
+  const names=wantDatesMap[ds]?[...wantDatesMap[ds]]:[];
+  if(!names.length)return'<span class="pdo-empty">—</span>';
+  const u1names=names.filter(n=>getDoctorUnit(n)==='unit1');
+  const u2names=names.filter(n=>getDoctorUnit(n)==='unit2');
+  let html='';
+  if(u1names.length){html+=`<div class="want-unit-row"><span class="want-unit-lbl u1">U1</span>${u1names.map(n=>`<span class="want-badge"><span class="want-count">W</span>${n.replace('Dr.','Dr. ')}</span>`).join('')}</div>`;}
+  if(u2names.length){html+=`<div class="want-unit-row"><span class="want-unit-lbl u2">U2</span>${u2names.map(n=>`<span class="want-badge"><span class="want-count">W</span>${n.replace('Dr.','Dr. ')}</span>`).join('')}</div>`;}
+  return html||'<span class="pdo-empty">—</span>';
+}
 let noteTimers={};
 function handleNoteChange(inp,date){notesMap[date]=inp.value;clearTimeout(noteTimers[date]);noteTimers[date]=setTimeout(()=>saveNote(date,inp.value),800);}
 
@@ -578,7 +590,7 @@ function render(){
     <th class="left" style="min-width:95px">Day</th>
     <th style="min-width:420px">Doctors on Duty</th>
     <th style="min-width:180px">PDO Staff</th>
-    <th style="min-width:140px">Want Dates</th>
+    <th style="min-width:180px">Want Dates</th>
     <th style="min-width:130px">Notes</th>
   </tr>`;
 
@@ -593,14 +605,14 @@ function render(){
   for(let day=1;day<=days;day++){
     const dt=new Date(y,m,day),dow=dt.getDay(),ds=fmtDate(y,m,day);
     const{s1:s1u,s2:s2u}=getSlotUnits(y,m,day);
-    const su = 'both';
+    const su=getScheduledUnit(y,m,day);
     const d1=dutiesMap[ds+'_s1']||{doctor_name:'',shift_type:'—'};
     const d2=dutiesMap[ds+'_s2']||{doctor_name:'',shift_type:'—'};
     const hasFull=d1.shift_type==='FULL'||d2.shift_type==='FULL';
     const nt=(notesMap[ds]||'').replace(/"/g,'&quot;');
 
-const bCls = 'udb-both';
-const bTxt = 'Both';
+    const bCls=su==='both'?'udb-both':su==='unit1'?'udb-u1':'udb-u2';
+    const bTxt=su==='both'?'Both':su==='unit1'?'Unit 1':'Unit 2';
     const badge=`<span class="unit-day-badge ${bCls}">${bTxt}</span>`;
 
     let cls=ds===todayStr?'today-row':dow===0?'sunday':'';
@@ -624,7 +636,7 @@ const bTxt = 'Both';
         </div>
       </td>
       <td class="pdo-cell">${buildPdoHtml(ds)}</td>
-      <td class="pdo-cell">${buildWantHtml(ds)}</td>
+      <td class="want-cell">${buildWantHtml(ds)}</td>
       <td class="note-cell"><input class="note-input" type="text" placeholder="remarks…" value="${nt}" onchange="handleNoteChange(this,'${ds}')"/></td>
     </tr>`;
   }
