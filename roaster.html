@@ -186,11 +186,13 @@ input.note-input:focus{background:#fffde7;}
 .cal-past{opacity:0.3;cursor:not-allowed;pointer-events:none;}
 .cal-avail{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32;}
 .cal-unavail{background:#fce4ec;border-color:#f48fb1;color:#c62828;font-weight:700;}
+.cal-wanted{background:#e3f2fd;border-color:#90caf9;color:#1565c0;font-weight:700;}
 .cal-today-ring{box-shadow:0 0 0 2.5px var(--header);}
 .cal-sunday.cal-avail{color:#e65100;}
 .portal-summary-card{font-size:0.72rem;color:var(--muted);text-align:center;padding:0.6rem;}
 .unavail-list{margin-top:0.5rem;display:flex;flex-wrap:wrap;gap:4px;justify-content:center;}
 .unavail-tag{background:var(--leave-bg);color:var(--leave-text);border:1px solid var(--leave-b);border-radius:3px;font-size:0.66rem;padding:2px 8px;}
+.wanted-tag{background:#e3f2fd;color:#1565c0;border:1px solid #90caf9;border-radius:3px;font-size:0.66rem;padding:2px 8px;}
 .portal-note{font-size:0.67rem;color:var(--muted);text-align:center;padding:0.5rem;font-style:italic;}
 </style>
 </head>
@@ -263,7 +265,7 @@ input.note-input:focus{background:#fffde7;}
     <div class="ph-hospital">ACS Medical College &amp; Hospital · Dept. of OBG</div>
     <div class="ph-name" id="portalDoctorName">—</div>
     <div class="ph-unit" id="portalUnitBadge"></div>
-    <div class="ph-sub">Tap a date to mark yourself <strong>unavailable</strong> — tap again to undo</div>
+    <div class="ph-sub">Choose a mode, then tap dates to mark unavailable or wanted days</div>
   </div>
   <div class="portal-card">
     <div class="portal-month-nav">
@@ -274,6 +276,11 @@ input.note-input:focus{background:#fffde7;}
     <div class="portal-legend">
       <div class="portal-legend-item"><div class="pl-box" style="background:var(--reg-bg);border-color:var(--reg-b)"></div>Available</div>
       <div class="portal-legend-item"><div class="pl-box" style="background:var(--leave-bg);border-color:var(--leave-b)"></div>Unavailable</div>
+      <div class="portal-legend-item"><div class="pl-box" style="background:var(--full-bg);border-color:var(--full-b)"></div>Wanted</div>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:0.6rem;flex-wrap:wrap;">
+      <button class="icon-btn" onclick="portalSetMode('unavail')" id="modeUnavailBtn">Mark Unavailable</button>
+      <button class="icon-btn" onclick="portalSetMode('wanted')" id="modeWantedBtn">Mark Wanted</button>
     </div>
     <div class="portal-status" id="portalStatus"></div>
     <div class="cal-grid" id="portalCalGrid"></div>
@@ -322,6 +329,11 @@ input.note-input:focus{background:#fffde7;}
 /*
   SUPABASE: run once —
   ALTER TABLE public.doctors ADD COLUMN IF NOT EXISTS unit text DEFAULT 'unit1';
+  CREATE TABLE IF NOT EXISTS public.wanted_dates (
+    doctor_name text NOT NULL,
+    date date NOT NULL,
+    UNIQUE (doctor_name, date)
+  );
 
   UNIT SCHEDULE:
   Week 0 (days 1-7):  Unit1=Mon/Wed/Fri, Unit2=Tue/Thu/Sat
@@ -352,7 +364,7 @@ const SHIFT_LABELS={'—':'—','REG':'Regular','FULL':'Full Day','LEAVE':'Leave
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const DAYS_SHORT=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
-let doctors=[],doctorUnits={},dutiesMap={},notesMap={},unavailabilityMap={};
+let doctors=[],doctorUnits={},dutiesMap={},notesMap={},unavailabilityMap={},wantedDatesMap={};
 const now=new Date();
 let curYear=now.getFullYear(),curMonth=now.getMonth(),pendingFillResult=null;
 
@@ -399,22 +411,28 @@ async function loadUnavailabilityRaw(from,to){
   try{return await api('GET','unavailability',`select=doctor_name,date&date=gte.${from}&date=lte.${to}&order=date.asc`);}
   catch(e){console.warn('unavailability table not found.',e);return[];}
 }
+async function loadWantedDatesRaw(from,to){
+  try{return await api('GET','wanted_dates',`select=doctor_name,date&date=gte.${from}&date=lte.${to}&order=date.asc`);}
+  catch(e){console.warn('wanted_dates table not found.',e);return[];}
+}
 async function loadMonthData(){
   const y=curYear,m=curMonth,days=new Date(y,m+1,0).getDate();
   const prevMD=new Date(y,m,0),prevDs=fmtDate(prevMD.getFullYear(),prevMD.getMonth(),prevMD.getDate());
   const from=fmtDate(y,m,1),to=fmtDate(y,m,days);
   try{
-    const[dr,nr,drPrev,ur]=await Promise.all([
+    const[dr,nr,drPrev,ur,wr]=await Promise.all([
       api('GET','duties',`select=date,slot,doctor_name,shift_type&date=gte.${from}&date=lte.${to}`),
       api('GET','notes',`select=date,note&date=gte.${from}&date=lte.${to}`),
       api('GET','duties',`select=date,slot,doctor_name,shift_type&date=eq.${prevDs}`),
-      loadUnavailabilityRaw(from,to)
+      loadUnavailabilityRaw(from,to),
+      loadWantedDatesRaw(from,to)
     ]);
     dutiesMap={};
     drPrev.forEach(r=>{dutiesMap[r.date+'_'+r.slot]={doctor_name:r.doctor_name||'',shift_type:r.shift_type||'—'};});
     dr.forEach(r=>{dutiesMap[r.date+'_'+r.slot]={doctor_name:r.doctor_name||'',shift_type:r.shift_type||'—'};});
     notesMap={};nr.forEach(r=>{notesMap[r.date]=r.note;});
     unavailabilityMap={};ur.forEach(r=>{if(!unavailabilityMap[r.date])unavailabilityMap[r.date]=new Set();unavailabilityMap[r.date].add(r.doctor_name);});
+    wantedDatesMap={};wr.forEach(r=>{if(!wantedDatesMap[r.doctor_name])wantedDatesMap[r.doctor_name]=new Set();wantedDatesMap[r.doctor_name].add(r.date);});
     clearError();
   }catch(e){showError('Loading month data',e);}
 }
@@ -782,7 +800,7 @@ async function importMarch2026(){
 }
 
 // ── Doctor Portal ─────────────────────────────────────────────
-let portalDoctor='',portalYear=now.getFullYear(),portalMonth=now.getMonth(),portalUnavailSet=new Set(),portalDoctorUnit='unit1';
+let portalDoctor='',portalYear=now.getFullYear(),portalMonth=now.getMonth(),portalUnavailSet=new Set(),portalWantedSet=new Set(),portalDoctorUnit='unit1',portalMode='unavail';
 
 async function initPortal(doctorName){
   document.getElementById('adminView').classList.add('hidden');
@@ -801,13 +819,15 @@ async function initPortal(doctorName){
   ub.className='ph-unit '+(portalDoctorUnit==='unit1'?'u1':'u2');
   loader(true,'Loading your availability…');
   await loadPortalData();loader(false);
-  renderPortalCalendar();renderPortalSummary();
+  portalSetMode('unavail');
 }
 async function loadPortalData(){
   const y=portalYear,m=portalMonth,days=new Date(y,m+1,0).getDate();
   const from=fmtDate(y,m,1),to=fmtDate(y,m,days);
   try{const data=await api('GET','unavailability',`select=date&doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=gte.${from}&date=lte.${to}`);portalUnavailSet=new Set(data.map(r=>r.date));}
-  catch(e){portalUnavailSet=new Set();}
+  catch(e){console.warn('unavailability table not found.',e);portalUnavailSet=new Set();}
+  try{const data=await api('GET','wanted_dates',`select=date&doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=gte.${from}&date=lte.${to}`);portalWantedSet=new Set(data.map(r=>r.date));}
+  catch(e){console.warn('wanted_dates table not found.',e);portalWantedSet=new Set();}
 }
 function portalChangeMonth(dir){
   portalMonth+=dir;if(portalMonth>11){portalMonth=0;portalYear++;}if(portalMonth<0){portalMonth=11;portalYear--;}
@@ -819,10 +839,10 @@ function renderPortalCalendar(){
   let html=['Su','Mo','Tu','We','Th','Fr','Sa'].map(d=>`<div class="cal-head">${d}</div>`).join('');
   for(let i=0;i<firstDow;i++)html+='<div class="cal-day cal-empty"></div>';
   for(let day=1;day<=days;day++){
-    const ds=fmtDate(y,m,day),dow=new Date(y,m,day).getDay(),isPast=ds<todayStr,isToday=ds===todayStr,isUnavail=portalUnavailSet.has(ds);
+    const ds=fmtDate(y,m,day),dow=new Date(y,m,day).getDay(),isPast=ds<todayStr,isToday=ds===todayStr,isUnavail=portalUnavailSet.has(ds),isWanted=portalWantedSet.has(ds);
     const su=getScheduledUnit(y,m,day),isMyDay=su==='both'||(portalDoctorUnit===su);
     let cls='cal-day';
-    if(isPast)cls+=' cal-past';else if(isUnavail)cls+=' cal-unavail';else cls+=' cal-avail';
+    if(isPast)cls+=' cal-past';else if(isUnavail)cls+=' cal-unavail';else if(isWanted)cls+=' cal-wanted';else cls+=' cal-avail';
     if(isToday)cls+=' cal-today-ring';
     if(dow===0&&!isUnavail&&!isPast)cls+=' cal-sunday';
     const style=(!isPast&&isMyDay&&!isUnavail)?` style="outline:2px solid ${portalDoctorUnit==='unit1'?'var(--u1-b)':'var(--u2-b)'};outline-offset:-2px"`:'';
@@ -831,11 +851,42 @@ function renderPortalCalendar(){
   document.getElementById('portalCalGrid').innerHTML=html;
 }
 function renderPortalSummary(){
-  const sorted=[...portalUnavailSet].sort();
-  document.getElementById('portalSummaryText').innerHTML=sorted.length?`You've marked <strong>${sorted.length}</strong> day${sorted.length>1?'s':''} unavailable this month:`:"No unavailable dates marked. You're fully available!";
-  document.getElementById('portalUnavailList').innerHTML=sorted.map(ds=>{const d=new Date(ds);return`<span class="unavail-tag">${DAYS_SHORT[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()].slice(0,3)}</span>`;}).join('');
+  const setToShow=portalMode==='wanted'?portalWantedSet:portalUnavailSet;
+  const sorted=[...setToShow].sort();
+  const isWantedMode=portalMode==='wanted';
+  document.getElementById('portalSummaryText').innerHTML=sorted.length
+    ?`You've marked <strong>${sorted.length}</strong> day${sorted.length>1?'s':''} ${isWantedMode?'wanted':'unavailable'} this month:`
+    :isWantedMode
+      ?"No wanted dates marked yet."
+      :"No unavailable dates marked. You're fully available!";
+  const tagClass=isWantedMode?'wanted-tag':'unavail-tag';
+  document.getElementById('portalUnavailList').innerHTML=sorted.map(ds=>{const d=new Date(ds);return`<span class="${tagClass}">${DAYS_SHORT[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()].slice(0,3)}</span>`;}).join('');
+}
+function portalSetMode(mode){
+  portalMode=mode;
+  const ub=document.getElementById('modeUnavailBtn'),wb=document.getElementById('modeWantedBtn');
+  if(ub&&wb){
+    ub.style.background=mode==='unavail'?'#e3f2fd':'#fff';
+    ub.style.borderColor=mode==='unavail'?'#90caf9':'var(--border-dark)';
+    wb.style.background=mode==='wanted'?'#e3f2fd':'#fff';
+    wb.style.borderColor=mode==='wanted'?'#90caf9':'var(--border-dark)';
+  }
+  renderPortalCalendar();renderPortalSummary();
+}
+async function portalToggleWanted(ds){
+  const s=document.getElementById('portalStatus');s.className='portal-status saving';
+  if(portalWantedSet.has(ds)){
+    try{s.textContent='Removing wanted date…';await api('DELETE','wanted_dates',`doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=eq.${ds}`);portalWantedSet.delete(ds);s.className='portal-status saved';s.textContent='Wanted date removed ✓';}
+    catch(e){s.className='portal-status';s.textContent='Error saving';}
+  }else{
+    try{s.textContent='Saving wanted date…';const ex=await api('GET','wanted_dates',`doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=eq.${ds}&select=id`);if(!ex.length)await api('POST','wanted_dates','',{doctor_name:portalDoctor,date:ds});portalWantedSet.add(ds);s.className='portal-status saved';s.textContent='Wanted date saved ✓';}
+    catch(e){s.className='portal-status';s.textContent='Error saving';}
+  }
+  setTimeout(()=>{s.textContent='';s.className='portal-status';},2000);
+  renderPortalCalendar();renderPortalSummary();
 }
 async function portalToggle(ds){
+  if(portalMode==='wanted')return portalToggleWanted(ds);
   const s=document.getElementById('portalStatus');s.className='portal-status saving';
   if(portalUnavailSet.has(ds)){
     try{s.textContent='Removing…';await api('DELETE','unavailability',`doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=eq.${ds}`);portalUnavailSet.delete(ds);s.className='portal-status saved';s.textContent='Saved ✓';}
