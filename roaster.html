@@ -107,12 +107,6 @@ td.pdo-cell{padding:4px 6px;min-width:160px;vertical-align:top;}
 .pdo-badge{display:inline-flex;align-items:center;gap:4px;background:var(--pdo-bg);color:var(--pdo-text);border:1px solid var(--pdo-b);border-radius:3px;font-size:0.68rem;padding:2px 7px;margin:2px 2px;white-space:nowrap;}
 .pdo-count{display:inline-block;background:var(--pdo-text);color:#fff;border-radius:50%;width:16px;height:16px;font-size:0.6rem;font-weight:700;line-height:16px;text-align:center;margin-right:2px;}
 td.note-cell{padding:3px 6px;min-width:140px;}
-td.want-cell{padding:4px 6px;min-width:160px;vertical-align:top;}
-.want-unit-row{display:flex;align-items:flex-start;gap:4px;margin-bottom:3px;flex-wrap:wrap;}
-.want-unit-row:last-child{margin-bottom:0;}
-.want-unit-lbl{font-size:0.55rem;font-weight:700;padding:2px 5px;border-radius:3px;white-space:nowrap;line-height:1.6;border:1px solid;}
-.want-unit-lbl.u1{background:var(--u1-bg);color:var(--u1);border-color:var(--u1-b);}
-.want-unit-lbl.u2{background:var(--u2-bg);color:var(--u2);border-color:var(--u2-b);}
 input.note-input{border:none;background:transparent;font-family:var(--font);font-size:0.72rem;color:var(--text);width:100%;outline:none;padding:0.25rem 0.1rem;}
 input.note-input::placeholder{color:#bbb;}
 input.note-input:focus{background:#fffde7;}
@@ -296,23 +290,44 @@ input.note-input:focus{background:#fffde7;}
       <div class="unavail-list" id="portalUnavailList"></div>
     </div>
   </div>
-  <!-- Want Dates Calendar -->
+  <!-- Want Dates S1 (Unit 1 slot) -->
   <div class="portal-card">
     <div style="text-align:center;margin-bottom:0.75rem;">
-      <div style="font-size:0.82rem;font-weight:700;color:var(--header);margin-bottom:0.2rem;">✅ Want Dates</div>
-      <div style="font-size:0.68rem;color:var(--muted);">Tap a date to mark you <strong>prefer/want</strong> to be on duty — tap again to undo</div>
+      <div style="font-size:0.82rem;font-weight:700;color:var(--u1);margin-bottom:0.2rem;">✅ Want Dates — Unit 1 Slot</div>
+      <div style="font-size:0.68rem;color:var(--muted);">Tap a date to say you <strong>prefer slot 1 (Unit 1)</strong> on that day — tap again to undo</div>
+      <div style="font-size:0.63rem;color:var(--muted);margin-top:2px;">24-duty &amp; Saturday rules still apply · Outlined dates = Unit 1 scheduled</div>
     </div>
     <div class="portal-legend">
-      <div class="portal-legend-item"><div class="pl-box" style="background:var(--reg-bg);border-color:#66bb6a"></div>Want this date</div>
-      <div class="portal-legend-item"><div class="pl-box" style="background:#f5f5f5;border-color:#ccc"></div>No preference</div>
+      <div class="portal-legend-item"><div class="pl-box" style="background:var(--reg-bg);border-color:#66bb6a"></div>Want slot 1 this date</div>
+      <div class="portal-legend-item"><div class="pl-box" style="background:#e8f5e9;border-color:var(--u1-b)"></div>Unit 1 day</div>
     </div>
-    <div class="portal-status" id="portalWantStatus"></div>
-    <div class="cal-grid" id="portalWantCalGrid"></div>
+    <div class="portal-status" id="portalWantStatusS1"></div>
+    <div class="cal-grid" id="portalWantCalGridS1"></div>
   </div>
   <div class="portal-card">
     <div class="portal-summary-card">
-      <div id="portalWantSummaryText">Loading…</div>
-      <div class="unavail-list" id="portalWantList"></div>
+      <div id="portalWantSummaryTextS1">Loading…</div>
+      <div class="unavail-list" id="portalWantListS1"></div>
+    </div>
+  </div>
+  <!-- Want Dates S2 (Unit 2 slot) -->
+  <div class="portal-card">
+    <div style="text-align:center;margin-bottom:0.75rem;">
+      <div style="font-size:0.82rem;font-weight:700;color:var(--u2);margin-bottom:0.2rem;">✅ Want Dates — Unit 2 Slot</div>
+      <div style="font-size:0.68rem;color:var(--muted);">Tap a date to say you <strong>prefer slot 2 (Unit 2)</strong> on that day — tap again to undo</div>
+      <div style="font-size:0.63rem;color:var(--muted);margin-top:2px;">24-duty &amp; Saturday rules still apply · Outlined dates = Unit 2 scheduled</div>
+    </div>
+    <div class="portal-legend">
+      <div class="portal-legend-item"><div class="pl-box" style="background:var(--reg-bg);border-color:#66bb6a"></div>Want slot 2 this date</div>
+      <div class="portal-legend-item"><div class="pl-box" style="background:var(--u2-bg);border-color:var(--u2-b)"></div>Unit 2 day</div>
+    </div>
+    <div class="portal-status" id="portalWantStatusS2"></div>
+    <div class="cal-grid" id="portalWantCalGridS2"></div>
+  </div>
+  <div class="portal-card">
+    <div class="portal-summary-card">
+      <div id="portalWantSummaryTextS2">Loading…</div>
+      <div class="unavail-list" id="portalWantListS2"></div>
     </div>
   </div>
   <div class="portal-note">Changes save instantly. Close this tab when you're done.</div>
@@ -358,11 +373,16 @@ input.note-input:focus{background:#fffde7;}
     id bigint generated always as identity primary key,
     doctor_name text not null,
     date date not null,
+    slot text not null default 's1',  -- 's1' = Unit1 slot, 's2' = Unit2 slot
     created_at timestamptz default now(),
-    unique(doctor_name, date)
+    unique(doctor_name, date, slot)
   );
   ALTER TABLE public.want_dates ENABLE ROW LEVEL SECURITY;
   CREATE POLICY "anon_all" ON public.want_dates FOR ALL TO anon USING (true) WITH CHECK (true);
+  -- If upgrading existing table, run:
+  -- ALTER TABLE public.want_dates ADD COLUMN IF NOT EXISTS slot text NOT NULL DEFAULT 's1';
+  -- ALTER TABLE public.want_dates DROP CONSTRAINT IF EXISTS want_dates_doctor_name_date_key;
+  -- ALTER TABLE public.want_dates ADD CONSTRAINT want_dates_doctor_name_date_slot_key UNIQUE(doctor_name, date, slot);
 
   UNIT SCHEDULE:
   Week 0 (days 1-7):  Unit1=Mon/Wed/Fri, Unit2=Tue/Thu/Sat
@@ -373,7 +393,7 @@ input.note-input:focus{background:#fffde7;}
   On a Unit2 day: both doctor dropdowns show only Unit2 doctors
   On Sunday:      slot1 shows Unit1 doctors, slot2 shows Unit2 doctors
 */
-const BASE='https://zmjfzhpypaiczaricoxm.supabase.co';
+const BASE='https://zmjfzhpypaiczaricoxm.supabase.co/rest/v1';
 const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptamZ6aHB5cGFpY3phcmljb3htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NDU3MTQsImV4cCI6MjA4OTIyMTcxNH0.Q6HtgDA1wm3_FjmUbM_DdBWKIe3zHwvkn-egOu1hXtE';
 const HDR={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=representation','Accept-Profile':'public','Content-Profile':'public'};
 
@@ -441,7 +461,7 @@ async function loadUnavailabilityRaw(from,to){
   catch(e){console.warn('unavailability table not found.',e);return[];}
 }
 async function loadWantDatesRaw(from,to){
-  try{return await api('GET','want_dates',`select=doctor_name,date&date=gte.${from}&date=lte.${to}&order=date.asc`);}
+  try{return await api('GET','want_dates',`select=doctor_name,date,slot&date=gte.${from}&date=lte.${to}&order=date.asc`);}
   catch(e){console.warn('want_dates table not found.',e);return[];}
 }
 async function loadMonthData(){
@@ -461,7 +481,7 @@ async function loadMonthData(){
     dr.forEach(r=>{dutiesMap[r.date+'_'+r.slot]={doctor_name:r.doctor_name||'',shift_type:r.shift_type||'—'};});
     notesMap={};nr.forEach(r=>{notesMap[r.date]=r.note;});
     unavailabilityMap={};ur.forEach(r=>{if(!unavailabilityMap[r.date])unavailabilityMap[r.date]=new Set();unavailabilityMap[r.date].add(r.doctor_name);});
-    wantDatesMap={};wr.forEach(r=>{if(!wantDatesMap[r.date])wantDatesMap[r.date]=new Set();wantDatesMap[r.date].add(r.doctor_name);});
+    wantDatesMap={};wr.forEach(r=>{const k=r.date+'_'+(r.slot||'s1');if(!wantDatesMap[k])wantDatesMap[k]=new Set();wantDatesMap[k].add(r.doctor_name);});
     clearError();
   }catch(e){showError('Loading month data',e);}
 }
@@ -546,14 +566,11 @@ function handleShiftChange(sel,date,slot){
 function refreshPdoRow(ds){const row=document.querySelector(`tr[data-date="${ds}"]`);if(!row)return;const cell=row.querySelector('.pdo-cell');if(cell)cell.innerHTML=buildPdoHtml(ds);}
 function buildPdoHtml(ds){const names=getPdoForDate(ds);if(!names.length)return'<span class="pdo-empty">—</span>';return names.map(n=>`<span class="pdo-badge"><span class="pdo-count">P</span>${n.replace('Dr.','Dr. ')}</span>`).join('');}
 function buildWantHtml(ds){
-  const names=wantDatesMap[ds]?[...wantDatesMap[ds]]:[];
-  if(!names.length)return'<span class="pdo-empty">—</span>';
-  const u1names=names.filter(n=>getDoctorUnit(n)==='unit1');
-  const u2names=names.filter(n=>getDoctorUnit(n)==='unit2');
-  let html='';
-  if(u1names.length){html+=`<div class="want-unit-row"><span class="want-unit-lbl u1">U1</span>${u1names.map(n=>`<span class="want-badge"><span class="want-count">W</span>${n.replace('Dr.','Dr. ')}</span>`).join('')}</div>`;}
-  if(u2names.length){html+=`<div class="want-unit-row"><span class="want-unit-lbl u2">U2</span>${u2names.map(n=>`<span class="want-badge"><span class="want-count">W</span>${n.replace('Dr.','Dr. ')}</span>`).join('')}</div>`;}
-  return html||'<span class="pdo-empty">—</span>';
+  const s1names=wantDatesMap[ds+'_s1']?[...wantDatesMap[ds+'_s1']]:[];
+  const s2names=wantDatesMap[ds+'_s2']?[...wantDatesMap[ds+'_s2']]:[];
+  const all=[...s1names.map(n=>`<span class="want-badge"><span class="want-count">W1</span>${n.replace('Dr.','Dr. ')}</span>`),
+             ...s2names.map(n=>`<span class="want-badge" style="background:#f3e5f5;color:#6a1b9a;border-color:#ce93d8"><span class="want-count" style="background:#6a1b9a">W2</span>${n.replace('Dr.','Dr. ')}</span>`)];
+  return all.length?all.join(''):'<span class="pdo-empty">—</span>';
 }
 let noteTimers={};
 function handleNoteChange(inp,date){notesMap[date]=inp.value;clearTimeout(noteTimers[date]);noteTimers[date]=setTimeout(()=>saveNote(date,inp.value),800);}
@@ -590,7 +607,7 @@ function render(){
     <th class="left" style="min-width:95px">Day</th>
     <th style="min-width:420px">Doctors on Duty</th>
     <th style="min-width:180px">PDO Staff</th>
-    <th style="min-width:180px">Want Dates</th>
+    <th style="min-width:140px">Want Dates</th>
     <th style="min-width:130px">Notes</th>
   </tr>`;
 
@@ -636,7 +653,7 @@ function render(){
         </div>
       </td>
       <td class="pdo-cell">${buildPdoHtml(ds)}</td>
-      <td class="want-cell">${buildWantHtml(ds)}</td>
+      <td class="pdo-cell">${buildWantHtml(ds)}</td>
       <td class="note-cell"><input class="note-input" type="text" placeholder="remarks…" value="${nt}" onchange="handleNoteChange(this,'${ds}')"/></td>
     </tr>`;
   }
@@ -696,12 +713,13 @@ function computeAutoFill(){
     else if(day===1){['s1','s2'].forEach(slot=>{const d=dutiesMap[prevDs+'_'+slot];if(d&&d.shift_type==='FULL'&&d.doctor_name)pdoToday.add(d.doctor_name);});}
 
     const unavailToday=unavailabilityMap[ds]||new Set();
-    const wantToday=wantDatesMap[ds]||new Set();
+    const wantS1=wantDatesMap[ds+'_s1']||new Set();
+    const wantS2=wantDatesMap[ds+'_s2']||new Set();
 
-    function pickBest(unit,exclude){
+    function pickBest(unit,exclude,wantSet){
       const pool=getUnitDoctors(unit);
-      // Priority 1: wants this date, not PDO, not unavail, not double-sat
-      let a=pool.filter(d=>d!==exclude&&wantToday.has(d)&&!pdoToday.has(d)&&!unavailToday.has(d)&&(!isSat||!satAssigned.has(d)));
+      // Priority 1: wants this slot, not PDO, not unavail, not double-sat
+      let a=pool.filter(d=>d!==exclude&&wantSet.has(d)&&!pdoToday.has(d)&&!unavailToday.has(d)&&(!isSat||!satAssigned.has(d)));
       if(!a.length)a=pool.filter(d=>d!==exclude&&!pdoToday.has(d)&&!unavailToday.has(d)&&(!isSat||!satAssigned.has(d)));
       if(!a.length)a=pool.filter(d=>d!==exclude&&!pdoToday.has(d)&&!unavailToday.has(d));
       if(!a.length)a=pool.filter(d=>d!==exclude&&!pdoToday.has(d));
@@ -709,15 +727,15 @@ function computeAutoFill(){
       if(!a.length)a=[...pool];
       // Among candidates: sort want-date doctors first, then by fewest duties
       return[...a].sort((a,b)=>{
-        const wa=wantToday.has(a)?0:1,wb=wantToday.has(b)?0:1;
+        const wa=wantSet.has(a)?0:1,wb=wantSet.has(b)?0:1;
         if(wa!==wb)return wa-wb;
         return isFullDay?fullCount[a]-fullCount[b]||totalCount[a]-totalCount[b]:totalCount[a]-totalCount[b];
       })[0]||null;
     }
 
-    const doc1=pickBest(s1u,null);
+    const doc1=pickBest(s1u,null,wantS1);
     // If both slots use the same unit, exclude doc1 so slot2 gets a different doctor
-    const doc2=pickBest(s2u,s1u===s2u?doc1:null);
+    const doc2=pickBest(s2u,s1u===s2u?doc1:null,wantS2);
     const shift=isFullDay?'FULL':'REG';
 
     const msgs=[];
@@ -849,7 +867,7 @@ async function importMarch2026(){
 }
 
 // ── Doctor Portal ─────────────────────────────────────────────
-let portalDoctor='',portalYear=now.getFullYear(),portalMonth=now.getMonth(),portalUnavailSet=new Set(),portalWantSet=new Set(),portalDoctorUnit='unit1';
+let portalDoctor='',portalYear=now.getFullYear(),portalMonth=now.getMonth(),portalUnavailSet=new Set(),portalWantS1Set=new Set(),portalWantS2Set=new Set(),portalDoctorUnit='unit1';
 
 async function initPortal(doctorName){
   document.getElementById('adminView').classList.add('hidden');
@@ -868,19 +886,23 @@ async function initPortal(doctorName){
   ub.className='ph-unit '+(portalDoctorUnit==='unit1'?'u1':'u2');
   loader(true,'Loading your availability…');
   await loadPortalData();loader(false);
-  renderPortalCalendar();renderPortalSummary();renderPortalWantCalendar();renderPortalWantSummary();
+  renderPortalCalendar();renderPortalSummary();renderPortalWantCalendar('s1');renderPortalWantCalendar('s2');renderPortalWantSummary();
 }
 async function loadPortalData(){
   const y=portalYear,m=portalMonth,days=new Date(y,m+1,0).getDate();
   const from=fmtDate(y,m,1),to=fmtDate(y,m,days);
   try{const data=await api('GET','unavailability',`select=date&doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=gte.${from}&date=lte.${to}`);portalUnavailSet=new Set(data.map(r=>r.date));}
   catch(e){portalUnavailSet=new Set();}
-  try{const data=await api('GET','want_dates',`select=date&doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=gte.${from}&date=lte.${to}`);portalWantSet=new Set(data.map(r=>r.date));}
-  catch(e){portalWantSet=new Set();}
+  try{
+    const data=await api('GET','want_dates',`select=date,slot&doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=gte.${from}&date=lte.${to}`);
+    portalWantS1Set=new Set(data.filter(r=>(r.slot||'s1')==='s1').map(r=>r.date));
+    portalWantS2Set=new Set(data.filter(r=>r.slot==='s2').map(r=>r.date));
+  }
+  catch(e){portalWantS1Set=new Set();portalWantS2Set=new Set();}
 }
 function portalChangeMonth(dir){
   portalMonth+=dir;if(portalMonth>11){portalMonth=0;portalYear++;}if(portalMonth<0){portalMonth=11;portalYear--;}
-  loadPortalData().then(()=>{renderPortalCalendar();renderPortalSummary();renderPortalWantCalendar();renderPortalWantSummary();});
+  loadPortalData().then(()=>{renderPortalCalendar();renderPortalSummary();renderPortalWantCalendar('s1');renderPortalWantCalendar('s2');renderPortalWantSummary();});
 }
 function renderPortalCalendar(){
   const y=portalYear,m=portalMonth,days=new Date(y,m+1,0).getDate(),firstDow=new Date(y,m,1).getDay(),todayStr=new Date().toISOString().slice(0,10);
@@ -905,43 +927,54 @@ function renderPortalSummary(){
   document.getElementById('portalUnavailList').innerHTML=sorted.map(ds=>{const d=new Date(ds);return`<span class="unavail-tag">${DAYS_SHORT[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()].slice(0,3)}</span>`;}).join('');
 }
 
-function renderPortalWantCalendar(){
+function renderPortalWantCalendar(slot){
+  const wantSet=slot==='s1'?portalWantS1Set:portalWantS2Set;
+  const slotUnit=slot==='s1'?'unit1':'unit2';
+  const gridId=slot==='s1'?'portalWantCalGridS1':'portalWantCalGridS2';
   const y=portalYear,m=portalMonth,days=new Date(y,m+1,0).getDate(),firstDow=new Date(y,m,1).getDay(),todayStr=new Date().toISOString().slice(0,10);
   let html=['Su','Mo','Tu','We','Th','Fr','Sa'].map(d=>`<div class="cal-head">${d}</div>`).join('');
   for(let i=0;i<firstDow;i++)html+='<div class="cal-day cal-empty"></div>';
   for(let day=1;day<=days;day++){
-    const ds=fmtDate(y,m,day),dow=new Date(y,m,day).getDay(),isPast=ds<todayStr,isToday=ds===todayStr,isWant=portalWantSet.has(ds);
-    const su=getScheduledUnit(y,m,day),isMyDay=su==='both'||(portalDoctorUnit===su);
+    const ds=fmtDate(y,m,day),dow=new Date(y,m,day).getDay(),isPast=ds<todayStr,isWant=wantSet.has(ds);
+    // Highlight days where this slot's unit is scheduled
+    const su=getScheduledUnit(y,m,day);
+    const isMySlotDay=(su==='both')||(su===slotUnit);
     let cls='cal-day';
     if(isPast)cls+=' cal-past';
     else if(isWant)cls+=' cal-want';
     else cls+=' cal-avail';
-    if(isToday)cls+=' cal-today-ring';
-    if(dow===6&&!isWant&&!isPast)cls+=' cal-sunday'; // sat highlight as reminder of saturday rule
-    // Highlight days scheduled for this unit
-    const style=(!isPast&&isMyDay&&!isWant)?` style="outline:2px solid ${portalDoctorUnit==='unit1'?'var(--u1-b)':'var(--u2-b)'};outline-offset:-2px"`:'';
-    html+=`<div class="${cls}"${isPast?'':` onclick="portalWantToggle('${ds}')"`}${style}>${day}</div>`;
+    if(dow===6&&!isWant&&!isPast)cls+=' cal-sunday';
+    const uColor=slotUnit==='unit1'?'var(--u1-b)':'var(--u2-b)';
+    const style=(!isPast&&isMySlotDay&&!isWant)?` style="outline:2px solid ${uColor};outline-offset:-2px"`:'';
+    html+=`<div class="${cls}"${isPast?'':` onclick="portalWantToggle('${ds}','${slot}')"`}${style}>${day}</div>`;
   }
-  document.getElementById('portalWantCalGrid').innerHTML=html;
+  document.getElementById(gridId).innerHTML=html;
 }
 
 function renderPortalWantSummary(){
-  const sorted=[...portalWantSet].sort();
-  document.getElementById('portalWantSummaryText').innerHTML=sorted.length?`You've marked <strong>${sorted.length}</strong> preferred day${sorted.length>1?'s':''} this month:`:"No preferred dates marked yet.";
-  document.getElementById('portalWantList').innerHTML=sorted.map(ds=>{const d=new Date(ds);return`<span class="want-tag">${DAYS_SHORT[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()].slice(0,3)}</span>`;}).join('');
+  // S1 summary
+  const s1sorted=[...portalWantS1Set].sort();
+  document.getElementById('portalWantSummaryTextS1').innerHTML=s1sorted.length?`<strong>${s1sorted.length}</strong> preferred day${s1sorted.length>1?'s':''} for Unit 1 slot:`:'No preferences for Unit 1 slot.';
+  document.getElementById('portalWantListS1').innerHTML=s1sorted.map(ds=>{const d=new Date(ds);return`<span class="want-tag">${DAYS_SHORT[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()].slice(0,3)}</span>`;}).join('');
+  // S2 summary
+  const s2sorted=[...portalWantS2Set].sort();
+  document.getElementById('portalWantSummaryTextS2').innerHTML=s2sorted.length?`<strong>${s2sorted.length}</strong> preferred day${s2sorted.length>1?'s':''} for Unit 2 slot:`:'No preferences for Unit 2 slot.';
+  document.getElementById('portalWantListS2').innerHTML=s2sorted.map(ds=>{const d=new Date(ds);return`<span class="want-tag" style="background:var(--u2-bg);color:var(--u2);border-color:var(--u2-b)">${DAYS_SHORT[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()].slice(0,3)}</span>`;}).join('');
 }
 
-async function portalWantToggle(ds){
-  const s=document.getElementById('portalWantStatus');s.className='portal-status saving';
-  if(portalWantSet.has(ds)){
-    try{s.textContent='Removing…';await api('DELETE','want_dates',`doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=eq.${ds}`);portalWantSet.delete(ds);s.className='portal-status saved';s.textContent='Saved ✓';}
+async function portalWantToggle(ds,slot){
+  const wantSet=slot==='s1'?portalWantS1Set:portalWantS2Set;
+  const statusId=slot==='s1'?'portalWantStatusS1':'portalWantStatusS2';
+  const s=document.getElementById(statusId);s.className='portal-status saving';
+  if(wantSet.has(ds)){
+    try{s.textContent='Removing…';await api('DELETE','want_dates',`doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=eq.${ds}&slot=eq.${slot}`);wantSet.delete(ds);s.className='portal-status saved';s.textContent='Saved ✓';}
     catch(e){s.className='portal-status';s.textContent='Error saving';}
   }else{
-    try{s.textContent='Saving…';const ex=await api('GET','want_dates',`doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=eq.${ds}&select=id`);if(!ex.length)await api('POST','want_dates','',{doctor_name:portalDoctor,date:ds});portalWantSet.add(ds);s.className='portal-status saved';s.textContent='Saved ✓';}
+    try{s.textContent='Saving…';const ex=await api('GET','want_dates',`doctor_name=eq.${encodeURIComponent(portalDoctor)}&date=eq.${ds}&slot=eq.${slot}&select=id`);if(!ex.length)await api('POST','want_dates','',{doctor_name:portalDoctor,date:ds,slot});wantSet.add(ds);s.className='portal-status saved';s.textContent='Saved ✓';}
     catch(e){s.className='portal-status';s.textContent='Error saving';}
   }
   setTimeout(()=>{s.textContent='';s.className='portal-status';},2000);
-  renderPortalWantCalendar();renderPortalWantSummary();
+  renderPortalWantCalendar(slot);renderPortalWantSummary();
 }
 async function portalToggle(ds){
   const s=document.getElementById('portalStatus');s.className='portal-status saving';
